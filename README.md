@@ -1,722 +1,179 @@
-# \# \\# MedicoScope - Medical AI Assistant
+# MedicoScope — AI-Powered Clinic in Your Pocket
+
+A professional Flutter health application providing AI-powered, multi-modal disease screening for patients and assistive diagnostics for doctors.
 
-# 
+![Flutter](https://img.shields.io/badge/Flutter-3.6.0-02569B?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.6.0-0175C2?logo=dart)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-# \# 
+## ✨ Features
 
-# 
+- 🎨 **Beautiful UI/UX** — Glassmorphism design with smooth animations
+- 🩺 **Multi-modal disease screening** — Diabetes, hypertension and anemia risk from lab reports, symptom questionnaires, vitals, PPG, conjunctival pallor and retinal fundus images
+- ❤️ **Heart sound analysis** — On-device TFLite model classifies heart sounds (normal vs. valvular conditions) and estimates heart rate
+- 🧠 **MindSpace** — Voice-based mental health check-ins with emotional analysis
+- 💬 **HearMe chatbot** — LLM assistant that answers health questions with your medical context
+- 📸 **Image capture** — Camera and gallery support for image-based screening
+- 🧬 **3D visualization** — Interactive 3D models of organs and conditions
+- 📅 **Appointments & doctor linking** — Book appointments and link with doctors via unique codes
+- 🗺️ **Nearby doctors** — Find hospitals and clinics near you on a map
+- 🏆 **Rewards & gamification** — Earn coins for healthy engagement
+- 🌐 **Multi-language** — English, Hindi, Tamil, Telugu, Marathi, Bengali, Kannada
+- 📱 **Cross-platform** — Android, iOS, Web and desktop
 
-# \# A professional Flutter medical imaging application providing AI-powered analysis for patients and assistive diagnostics for doctors.
+## 🚀 Quick Start
 
-# 
+### Prerequisites
 
-# \# 
+- Flutter SDK 3.6.0 or higher
+- Dart SDK 3.6.0 or higher
+- Android Studio / Xcode (for mobile development)
+
+### Installation
 
-# 
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/atharva-awade/Team-Synora-MedicoScope-AI-Powered-Clinic-in-you-Pocket.git
+   cd Team-Synora-MedicoScope-AI-Powered-Clinic-in-you-Pocket
+   ```
+
+2. **Install dependencies**
+   ```bash
+   flutter pub get
+   ```
+
+3. **ML models**
+
+   The TFLite models ship in `assets/models/`:
+   ```
+   assets/models/
+   ├── eye_float16.tflite
+   ├── eye_float32.tflite
+   ├── skin_float16.tflite
+   └── heart_model.tflite
+   ```
+
+4. **3D models**
+
+   The `.glb` 3D models ship in `assets/3d_models/` (heart and skin lesion models).
+
+5. **Run the app**
+   ```bash
+   flutter run
+   ```
+
+### Backend services
+
+The app talks to two backends (deployment config in `render.yaml`):
+
+- **API server** (`server/`) — Node.js + MongoDB: auth, profiles, detection records, appointments, rewards, admin.
+- **Chatbot** (`chatbot/`) — Python FastAPI: HearMe chat, mental-health voice analysis, vitals streaming and reward content (Groq LLMs).
+
+Copy `chatbot/.env.example` to `chatbot/.env` and fill in your own keys before running the chatbot locally.
 
-# \# !\\\[Flutter](https://img.shields.io/badge/Flutter-3.6.0-02569B?logo=flutter)
+## 📱 Supported Platforms
 
-# 
+- ✅ Android
+- ✅ iOS
+- ✅ Web (limited 3D support)
+- ✅ Windows / macOS (desktop)
 
-# \# !\\\[Dart](https://img.shields.io/badge/Dart-3.6.0-0175C2?logo=dart)
+## 🎨 UI/UX Design
 
-# 
+- **Glassmorphism effects** — Frosted glass cards with backdrop blur
+- **Health-themed accent colors** — Clean medical palette
+- **Google Fonts typography** — Modern, readable type
+- **Smooth animations** — Eased transitions throughout
+- **Light & dark themes** — User-selectable, persisted across sessions
 
-# \# !\\\[License](https://img.shields.io/badge/License-MIT-green)
+## 🏗️ Architecture
 
-# 
+```
+lib/
+├── core/        # Theme, locale, providers, constants, shared widgets
+├── data/        # Disease database and symptom questionnaires
+├── models/      # Data models (user, doctor, patient, risk results)
+├── screens/     # UI screens grouped by feature
+├── services/    # API, auth, analyzers, TFLite, chat, vitals
+└── main.dart    # App entry point
+server/          # Node.js API server
+chatbot/         # Python FastAPI LLM backend
+assets/          # ML models, 3D models, images
+```
 
-# \# 
+## 🩺 Disease Screening Methods
 
-# 
+MedicoScope screens for **diabetes, hypertension and anemia** using six complementary methods, each producing a unified risk result (low / moderate / high / critical) with findings and recommendations:
 
-# \# \\## ✨ Features
+1. **Lab report (PDF)** — parses markers such as HbA1c, FBS, PPBS, Hb, RBC, WBC
+2. **Symptom questionnaire** — structured symptom scoring
+3. **Vitals (wearable / manual)** — blood pressure, heart rate, SpO₂
+4. **PPG blood pressure** — camera-based photoplethysmography estimation
+5. **Conjunctival pallor** — eyelid image analysis for anemia
+6. **Retinal fundus** — fundus image analysis for diabetic retinopathy risk
 
-# 
+## 🔧 Configuration
 
-# \# 
+### Camera & permissions
 
-# 
+**Android** (`android/app/src/main/AndroidManifest.xml`):
+```xml
+<uses-permission android:name="android.permission.CAMERA"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```
 
-# \# \\- 🎨 \\\*\\\*Beautiful UI/UX\\\*\\\* - Glassmorphism design with smooth animations
+**iOS** (`ios/Runner/Info.plist`):
+```xml
+<key>NSCameraUsageDescription</key>
+<string>We need camera access to capture medical images</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need photo library access to select medical images</string>
+```
 
-# 
+## 📦 Key Dependencies
 
-# \# \\- 🤖 \\\*\\\*AI-Powered Analysis\\\*\\\* - YOLOv8s TFLite models for medical image detection
+| Package | Purpose |
+|---------|---------|
+| tflite_flutter | On-device ML inference |
+| image_picker / camera | Camera & gallery |
+| model_viewer_plus | 3D model viewing |
+| flutter_animate | Animations |
+| google_fonts | Typography |
+| provider | State management |
+| fl_chart | Charts (heart & vitals) |
+| flutter_map / geolocator | Nearby doctors map |
+| syncfusion_flutter_pdf | Lab report parsing |
+| health | Health Connect / HealthKit |
+| record / fftea | Audio capture & signal processing |
 
-# 
+## 🎯 Usage Flow
 
-# \# \\- 📸 \\\*\\\*Image Capture\\\*\\\* - Camera and gallery support
+1. **Onboarding** — Interactive tutorial explaining features
+2. **Sign up / role selection** — Patient, doctor or admin
+3. **Dashboard** — Role-specific hub of available tools
+4. **Screening** — Choose a disease and a detection method
+5. **Analysis** — On-device or backend AI processes the input
+6. **Results** — View risk level, findings, recommendations, 3D models, and ask HearMe for guidance
 
-# 
+## ⚠️ Important Notes
 
-# \# \\- 🧬 \\\*\\\*4 Medical Categories\\\*\\\* - Skin, Eye, Chest X-Ray, Brain MRI
+- This is an **assistive tool**, not a replacement for professional medical diagnosis.
+- Image and heart-sound models run best on physical devices.
+- AR viewing requires iOS 12+ or an ARCore-compatible Android device.
+- Never commit real API keys — `chatbot/.env` is gitignored; use `.env.example` as a template.
 
-# 
+## 📄 License
 
-# \# \\- 🎭 \\\*\\\*3D Visualization\\\*\\\* - Interactive 3D models of detected conditions
+This project is licensed under the MIT License.
 
-# 
+## 🤝 Contributing
 
-# \# \\- 📱 \\\*\\\*Cross-Platform\\\*\\\* - Android, iOS ready
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-# 
+## 📧 Contact
 
-# \# 
+For questions or support, please open an issue in the repository.
 
-# 
+---
 
-# \# \\## 🚀 Quick Start
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### Prerequisites
-
-# 
-
-# \# 
-
-# 
-
-# \# \\- Flutter SDK 3.6.0 or higher
-
-# 
-
-# \# \\- Dart SDK 3.6.0 or higher
-
-# 
-
-# \# \\- Android Studio / Xcode (for mobile development)
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### Installation
-
-# 
-
-# \# 
-
-# 
-
-# \# 1\\. \\\*\\\*Clone the repository\\\*\\\*
-
-# 
-
-# \# \&nbsp;  ```bash
-
-# 
-
-# \# \&nbsp;  cd "d:\\\\Aavishkar 2026\\\\MedicoScope"
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# 
-
-# 
-
-# \# 2\\. \\\*\\\*Install dependencies\\\*\\\* (Already done)
-
-# 
-
-# \# \&nbsp;  ```bash
-
-# 
-
-# \# \&nbsp;  flutter pub get
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# 
-
-# 
-
-# \# 3\\. \\\*\\\*Add TFLite Models\\\*\\\* (Already done)
-
-# 
-
-# \# \&nbsp;  
-
-# 
-
-# \# \&nbsp;  Place your YOLOv8s `.tflite` files in:
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# \&nbsp;  assets/models/
-
-# 
-
-# \# \&nbsp;  ├── skin\\\_float16.tflite
-
-# 
-
-# \# \&nbsp;  ├── eye\\\_float16.tflite
-
-# 
-
-# \# \&nbsp;  ├── chest\\\_float16.tflite
-
-# 
-
-# \# \&nbsp;  └── brain\\\_float16.tflite
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# 
-
-# 
-
-# \# 4\\. \\\*\\\*Add 3D Models\\\*\\\* (Optional)
-
-# 
-
-# \# \&nbsp;  
-
-# 
-
-# \# \&nbsp;  Place your `.glb` 3D model files in:
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# \&nbsp;  assets/3d\\\_models/
-
-# 
-
-# \# \&nbsp;  ├── skin/
-
-# 
-
-# \# \&nbsp;  ├── eye/
-
-# 
-
-# \# \&nbsp;  ├── chest/
-
-# 
-
-# \# \&nbsp;  └── brain/
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# 
-
-# 
-
-# \# 5\\. \\\*\\\*Run the app\\\*\\\*
-
-# 
-
-# \# \&nbsp;  ```bash
-
-# 
-
-# \# \&nbsp;  flutter run
-
-# 
-
-# \# \&nbsp;  ```
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 📱 Supported Platforms
-
-# 
-
-# \# 
-
-# 
-
-# \# \\- ✅ Android
-
-# 
-
-# \# \\- ✅ iOS
-
-# 
-
-# \# \\- ⚠️ Web (limited 3D support)
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 🎨 UI/UX Design
-
-# 
-
-# \# 
-
-# 
-
-# \# The app features a modern, professional design with:
-
-# 
-
-# \# \\- \\\*\\\*Glassmorphism effects\\\*\\\* - Frosted glass cards with backdrop blur
-
-# 
-
-# \# \\- \\\*\\\*Orange accent colors\\\*\\\* - Matching medical/health theme
-
-# 
-
-# \# \\- \\\*\\\*Inter font family\\\*\\\* - Clean, modern typography
-
-# 
-
-# \# \\- \\\*\\\*Smooth animations\\\*\\\* - 400-600ms transitions with eased curves
-
-# 
-
-# \# \\- \\\*\\\*Category-specific gradients\\\*\\\* - Unique colors for each medical type
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 🏗️ Architecture
-
-# 
-
-# \# 
-
-# 
-
-# \# ```
-
-# 
-
-# \# lib/
-
-# 
-
-# \# ├── core/           # Theme, widgets, utilities
-
-# 
-
-# \# ├── data/           # Disease database
-
-# 
-
-# \# ├── models/         # Data models
-
-# 
-
-# \# ├── screens/        # UI screens
-
-# 
-
-# \# ├── services/       # TFLite, AR services
-
-# 
-
-# \# └── main.dart       # App entry point
-
-# 
-
-# \# ```
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 📋 Medical Categories
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### 1. Skin / Dermascopy (7 conditions)
-
-# 
-
-# \# \\- Actinic Keratoses
-
-# 
-
-# \# \\- Basal Cell Carcinoma
-
-# 
-
-# \# \\- Benign Keratosis
-
-# 
-
-# \# \\- Dermatofibroma
-
-# 
-
-# \# \\- Melanocytic Nevi
-
-# 
-
-# \# \\- Melanoma
-
-# 
-
-# \# \\- Vascular Lesions
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### 2. Eye / Fundus (1 condition)
-
-# 
-
-# \# \\- Red Lesions (Retinal Hemorrhages)
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### 3. Chest X-Ray (8 conditions)
-
-# 
-
-# \# \\- Atelectasis
-
-# 
-
-# \# \\- Cardiomegaly
-
-# 
-
-# \# \\- Effusion
-
-# 
-
-# \# \\- Infiltrate
-
-# 
-
-# \# \\- Mass
-
-# 
-
-# \# \\- Nodule
-
-# 
-
-# \# \\- Pneumonia
-
-# 
-
-# \# \\- Pneumothorax
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### 4. Brain MRI (1 condition)
-
-# 
-
-# \# \\- Tumor-Cell (Glioma)
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 🔧 Configuration
-
-# 
-
-# \# 
-
-# 
-
-# \# \\### Camera Permissions
-
-# 
-
-# \# 
-
-# 
-
-# \# \\\*\\\*Android\\\*\\\* (`android/app/src/main/AndroidManifest.xml`):
-
-# 
-
-# \# ```xml
-
-# 
-
-# \# <uses-permission android:name="android.permission.CAMERA"/>
-
-# 
-
-# \# <uses-permission android:name="android.permission.READ\\\_EXTERNAL\\\_STORAGE"/>
-
-# 
-
-# \# ```
-
-# 
-
-# \# 
-
-# 
-
-# \# \\\*\\\*iOS\\\*\\\* (`ios/Runner/Info.plist`):
-
-# 
-
-# \# ```xml
-
-# 
-
-# \# <key>NSCameraUsageDescription</key>
-
-# 
-
-# \# <string>We need camera access to capture medical images</string>
-
-# 
-
-# \# <key>NSPhotoLibraryUsageDescription</key>
-
-# 
-
-# \# <string>We need photo library access to select medical images</string>
-
-# 
-
-# \# ```
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 📦 Dependencies
-
-# 
-
-# \# 
-
-# 
-
-# \# | Package | Version | Purpose |
-
-# 
-
-# \# |---------|---------|---------|
-
-# 
-
-# \# | tflite\\\_flutter | 0.10.4 | TFLite inference |
-
-# 
-
-# \# | image\\\_picker | 1.2.0 | Camera/gallery |
-
-# 
-
-# \# | model\\\_viewer\\\_plus | 1.9.2 | 3D models |
-
-# 
-
-# \# | flutter\\\_animate | 4.5.2 | Animations |
-
-# 
-
-# \# | google\\\_fonts | 6.3.0 | Typography |
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 🎯 Usage Flow
-
-# 
-
-# \# 
-
-# 
-
-# \# 1\\. \\\*\\\*Onboarding\\\*\\\* - Interactive tutorial explaining features
-
-# 
-
-# \# 2\\. \\\*\\\*Welcome\\\*\\\* - App introduction and purpose
-
-# 
-
-# \# 3\\. \\\*\\\*Category Selection\\\*\\\* - Choose medical analysis type
-
-# 
-
-# \# 4\\. \\\*\\\*Image Upload\\\*\\\* - Capture or select image
-
-# 
-
-# \# 5\\. \\\*\\\*Analysis\\\*\\\* - AI processes the image
-
-# 
-
-# \# 6\\. \\\*\\\*Results\\\*\\\* - View detection with 3D model
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## ⚠️ Important Notes
-
-# 
-
-# \# 
-
-# 
-
-# \# \\- TFLite models must be YOLOv8s format (640x640 input) for object detection
-
-# 
-
-# \# \\- Eye model uses classification, others use object detection
-
-# 
-
-# \# \\- Currently using demo `heart.glb` for all 3D visualizations
-
-# 
-
-# \# \\- AR viewing requires iOS 12+ or ARCore-compatible Android device
-
-# 
-
-# \# \\- Test on physical devices for best performance
-
-# 
-
-# \# \\- This is an assistive tool, not a replacement for professional medical diagnosis
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 📄 License
-
-# 
-
-# \# 
-
-# 
-
-# \# This project is licensed under the MIT License.
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 🤝 Contributing
-
-# 
-
-# \# 
-
-# 
-
-# \# Contributions are welcome! Please feel free to submit a Pull Request.
-
-# 
-
-# \# 
-
-# 
-
-# \# \\## 📧 Contact
-
-# 
-
-# \# 
-
-# 
-
-# \# For questions or support, please open an issue in the repository.
-
-# 
-
-# \# 
-
-# 
-
-# \# ---
-
-# 
-
-# \# 
-
-# 
-
-# \# \\\*\\\*Built with ❤️ using Flutter\\\*\\\*
-
-# 
-
-# 
-
-# 
-
-
-
+**Built with ❤️ using Flutter**
