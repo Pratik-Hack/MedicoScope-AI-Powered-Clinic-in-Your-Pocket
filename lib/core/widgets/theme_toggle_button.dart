@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
@@ -24,16 +24,16 @@ class ThemeToggleButton extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           color: isDark 
-              ? AppTheme.darkSurface.withOpacity(0.8)
-              : Colors.white.withOpacity(0.8),
+              ? AppTheme.darkSurface.withValues(alpha: 0.8)
+              : Colors.white.withValues(alpha: 0.8),
           shape: BoxShape.circle,
           border: Border.all(
-            color: AppTheme.primaryOrange.withOpacity(0.3),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.3),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.primaryOrange.withOpacity(0.2),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/glass_card.dart';
@@ -200,7 +200,7 @@ class _AdminDoctorsScreenState extends State<AdminDoctorsScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
-          color: const Color(0xFF667EEA).withOpacity(0.1),
+          color: const Color(0xFF667EEA).withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(text, style: const TextStyle(

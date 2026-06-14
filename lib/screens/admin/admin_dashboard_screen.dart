@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/app_drawer.dart';
@@ -333,7 +333,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
           boxShadow: [
             BoxShadow(
-              color: gradient.colors.first.withOpacity(0.3),
+              color: gradient.colors.first.withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -345,7 +345,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               width: 52,
               height: 52,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
               ),
               child: Icon(icon, size: 28, color: Colors.white),
@@ -360,12 +360,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   )),
                   const SizedBox(height: 4),
                   Text(description, style: TextStyle(
-                    fontSize: 12, color: Colors.white.withOpacity(0.85),
+                    fontSize: 12, color: Colors.white.withValues(alpha: 0.85),
                   )),
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: Colors.white.withOpacity(0.7), size: 16),
+            Icon(Icons.arrow_forward_ios, color: Colors.white.withValues(alpha: 0.7), size: 16),
           ],
         ),
       ),

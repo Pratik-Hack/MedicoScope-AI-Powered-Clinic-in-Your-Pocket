@@ -1,6 +1,6 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
 import 'package:medicoscope/data/disease_database.dart';
@@ -33,12 +33,12 @@ class TFLiteService {
       if (inputShape.length >= 3) {
         // For NHWC: [1, height, width, 3] or NCHW: [1, 3, height, width]
         inputSize = inputShape[1] == 3 ? inputShape[2] : inputShape[1];
-        print('Updated input size to: $inputSize');
+        debugPrint('Updated input size to: $inputSize');
       }
 
-      print('Model loaded successfully for category: $category');
+      debugPrint('Model loaded successfully for category: $category');
     } catch (e) {
-      print('Error loading model: $e');
+      debugPrint('Error loading model: $e');
       rethrow;
     }
   }
@@ -68,8 +68,8 @@ class TFLiteService {
       var inputTensor = _interpreter!.getInputTensor(0);
       var inputShape = inputTensor.shape;
 
-      print('Model input shape: $inputShape');
-      print('Model input type: ${inputTensor.type}');
+      debugPrint('Model input shape: $inputShape');
+      debugPrint('Model input type: ${inputTensor.type}');
 
       // Convert to input tensor with correct shape
       var input = _imageToByteListFloat32(resizedImage, inputShape);
@@ -82,8 +82,8 @@ class TFLiteService {
       var outputTensor = _interpreter!.getOutputTensor(0);
       var outputShape = outputTensor.shape;
 
-      print('Model output shape: $outputShape');
-      print('Model output type: ${outputTensor.type}');
+      debugPrint('Model output shape: $outputShape');
+      debugPrint('Model output type: ${outputTensor.type}');
 
       if (isClassification) {
         // Classification model (eye)
@@ -92,7 +92,7 @@ class TFLiteService {
         int outputSize = outputShape.reduce((a, b) => a * b);
         var output = List.filled(outputSize, 0.0).reshape(outputShape);
 
-        print('Running classification inference with output size: $outputSize');
+        debugPrint('Running classification inference with output size: $outputSize');
 
         // Run inference
         _interpreter!.run(input, output);
@@ -105,7 +105,7 @@ class TFLiteService {
         int outputSize = outputShape.reduce((a, b) => a * b);
         var output = List.filled(outputSize, 0.0).reshape(outputShape);
 
-        print(
+        debugPrint(
             'Running object detection inference with output shape: $outputShape');
 
         // Run inference
@@ -115,7 +115,7 @@ class TFLiteService {
         return _processOutput(output);
       }
     } catch (e) {
-      print('Error during inference: $e');
+      debugPrint('Error during inference: $e');
       rethrow;
     }
   }
@@ -130,7 +130,7 @@ class TFLiteService {
     if (isNCHW) {
       // NCHW format: [1, 3, 640, 640]
       // Channels are separate: all R, then all G, then all B
-      print('Using NCHW input format');
+      debugPrint('Using NCHW input format');
       int channelSize = inputSize * inputSize;
 
       for (var i = 0; i < inputSize; i++) {
@@ -147,7 +147,7 @@ class TFLiteService {
     } else {
       // NHWC format: [1, 640, 640, 3]
       // Channels are interleaved: RGB, RGB, RGB...
-      print('Using NHWC input format');
+      debugPrint('Using NHWC input format');
       int pixelIndex = 0;
 
       for (var i = 0; i < inputSize; i++) {
@@ -184,18 +184,16 @@ class TFLiteService {
       // Likely transposed: [1, num_classes + 5, num_detections]
       isTransposed = true;
       numDetections = output[0][0].length;
-      print('Detected transposed output format');
+      debugPrint('Detected transposed output format');
     } else {
       // Standard format: [1, num_detections, num_classes + 5]
       numDetections = output[0].length;
-      print('Detected standard output format');
+      debugPrint('Detected standard output format');
     }
 
     // Process detections
     double maxConfidence = 0.0;
     int maxClassIndex = 0;
-    List<double> bestBbox = [0, 0, 0, 0]; // [cx, cy, w, h] in pixel coords
-
     // Track top detections for debugging
     List<Map<String, dynamic>> topDetections = [];
 
@@ -224,7 +222,7 @@ class TFLiteService {
 
           // Debug: Show first 3 detections
           if (i < 3) {
-            print('Detection $i: confidence=${objectness.toStringAsFixed(6)}, '
+            debugPrint('Detection $i: confidence=${objectness.toStringAsFixed(6)}, '
                 'class_id=$detectedClassIndex, bbox=[${detection[0].toStringAsFixed(2)}, ${detection[1].toStringAsFixed(2)}, ${detection[2].toStringAsFixed(2)}, ${detection[3].toStringAsFixed(2)}]');
           }
 
@@ -240,12 +238,6 @@ class TFLiteService {
             if (objectness > maxConfidence) {
               maxConfidence = objectness;
               maxClassIndex = detectedClassIndex;
-              bestBbox = [
-                detection[0].toDouble(),
-                detection[1].toDouble(),
-                detection[2].toDouble(),
-                detection[3].toDouble(),
-              ];
             }
           }
           continue; // Skip the old processing logic
@@ -262,7 +254,7 @@ class TFLiteService {
       // Old YOLO format processing
       // Debug: Show first 3 detections
       if (i < 3 && classProbs.isNotEmpty) {
-        print('Detection $i: objectness=${objectness.toStringAsFixed(6)}, '
+        debugPrint('Detection $i: objectness=${objectness.toStringAsFixed(6)}, '
             'classProbs=[${classProbs.map((p) => p.toStringAsFixed(6)).join(", ")}]');
       }
 
@@ -292,31 +284,15 @@ class TFLiteService {
       if (confidence > maxConfidence && classIndex < labels.length) {
         maxConfidence = confidence;
         maxClassIndex = classIndex;
-        if (isTransposed) {
-          bestBbox = [
-            output[0][0][i].toDouble(),
-            output[0][1][i].toDouble(),
-            output[0][2][i].toDouble(),
-            output[0][3][i].toDouble(),
-          ];
-        } else {
-          var det = output[0][i];
-          bestBbox = [
-            det[0].toDouble(),
-            det[1].toDouble(),
-            det[2].toDouble(),
-            det[3].toDouble(),
-          ];
-        }
       }
     }
 
     // Sort and show top 5 detections
     topDetections.sort((a, b) => b['confidence'].compareTo(a['confidence']));
-    print('Top 5 detections:');
+    debugPrint('Top 5 detections:');
     for (int i = 0; i < topDetections.length && i < 5; i++) {
       var det = topDetections[i];
-      print(
+      debugPrint(
           '  ${i + 1}. ${det['class']}: ${(det['confidence'] * 100).toStringAsFixed(4)}% '
           '(obj: ${(det['objectness'] * 100).toStringAsFixed(4)}%, '
           'cls: ${(det['classProb'] * 100).toStringAsFixed(4)}%)');
@@ -325,7 +301,7 @@ class TFLiteService {
     // Very low threshold to work with model's output range
     if (maxConfidence < 0.0001) {
       // 0.01%
-      print(
+      debugPrint(
           'Max confidence ${(maxConfidence * 100).toStringAsFixed(6)}% below threshold');
       return null;
     }
@@ -386,8 +362,8 @@ class TFLiteService {
       }
     }
 
-    print('Classification probs: ${probs.map((p) => p.toStringAsFixed(3)).toList()}');
-    print('Argmax class=$maxIdx (${maxIdx < labels.length ? labels[maxIdx] : "?"}), confidence=${maxConf.toStringAsFixed(3)}');
+    debugPrint('Classification probs: ${probs.map((p) => p.toStringAsFixed(3)).toList()}');
+    debugPrint('Argmax class=$maxIdx (${maxIdx < labels.length ? labels[maxIdx] : "?"}), confidence=${maxConf.toStringAsFixed(3)}');
 
     if (maxIdx >= labels.length) return null;
 

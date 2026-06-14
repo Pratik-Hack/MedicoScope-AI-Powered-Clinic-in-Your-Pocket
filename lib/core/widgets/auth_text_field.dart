@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 
 class AuthTextField extends StatelessWidget {
@@ -60,22 +60,22 @@ class AuthTextField extends StatelessWidget {
         suffixIcon: suffix,
         filled: true,
         fillColor: isDark
-            ? AppTheme.darkCard.withOpacity(0.7)
-            : Colors.white.withOpacity(0.7),
+            ? AppTheme.darkCard.withValues(alpha: 0.7)
+            : Colors.white.withValues(alpha: 0.7),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
           borderSide: BorderSide(
             color: isDark
-                ? Colors.white.withOpacity(0.1)
-                : Colors.black.withOpacity(0.1),
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.1),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
           borderSide: BorderSide(
             color: isDark
-                ? Colors.white.withOpacity(0.1)
-                : Colors.black.withOpacity(0.1),
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.1),
           ),
         ),
         focusedBorder: OutlineInputBorder(

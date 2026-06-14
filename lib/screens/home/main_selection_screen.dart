@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/theme_toggle_button.dart';
@@ -52,7 +52,7 @@ class MainSelectionScreen extends StatelessWidget {
                         end: Alignment.bottomCenter,
                         colors: [
                           AppTheme.backgroundLight,
-                          AppTheme.backgroundLight.withOpacity(0),
+                          AppTheme.backgroundLight.withValues(alpha: 0),
                         ],
                       ),
                     ),
@@ -68,7 +68,7 @@ class MainSelectionScreen extends StatelessWidget {
                             gradient: AppTheme.orangeGradient,
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primaryOrange.withOpacity(0.3),
+                                color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
@@ -85,7 +85,7 @@ class MainSelectionScreen extends StatelessWidget {
                             )
                             .shimmer(
                               duration: 3000.ms,
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                             ),
                       ),
                     ),
@@ -216,7 +216,7 @@ class MainSelectionScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
           boxShadow: [
             BoxShadow(
-              color: gradient.colors.first.withOpacity(0.3),
+              color: gradient.colors.first.withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -233,7 +233,7 @@ class MainSelectionScreen extends StatelessWidget {
                 child: Icon(
                   icon,
                   size: 140,
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha: 0.1),
                 ),
               ),
 
@@ -247,7 +247,7 @@ class MainSelectionScreen extends StatelessWidget {
                       width: 70,
                       height: 70,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius:
                             BorderRadius.circular(AppTheme.radiusMedium),
                       ),
@@ -279,7 +279,7 @@ class MainSelectionScreen extends StatelessWidget {
                             description,
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                             ),
                           ),
                         ],
@@ -289,7 +289,7 @@ class MainSelectionScreen extends StatelessWidget {
                     // Arrow
                     Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                       size: 20,
                     ),
                   ],

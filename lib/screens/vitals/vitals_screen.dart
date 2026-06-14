@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/providers/auth_provider.dart';
@@ -306,7 +306,7 @@ class _VitalsScreenState extends State<VitalsScreen>
                     boxShadow: [
                       BoxShadow(
                         color: Colors.redAccent
-                            .withOpacity(0.4 + _pulseController.value * 0.4),
+                            .withValues(alpha: 0.4 + _pulseController.value * 0.4),
                         blurRadius: 6 + _pulseController.value * 6,
                         spreadRadius: _pulseController.value * 3,
                       ),
@@ -341,7 +341,7 @@ class _VitalsScreenState extends State<VitalsScreen>
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF667EEA).withOpacity(0.3),
+                  color: const Color(0xFF667EEA).withValues(alpha: 0.3),
                   blurRadius: 30,
                   offset: const Offset(0, 15),
                 ),
@@ -431,7 +431,7 @@ class _VitalsScreenState extends State<VitalsScreen>
                 boxShadow: [
                   if (!vitals.isStarting && _infoReady)
                     BoxShadow(
-                      color: const Color(0xFF667EEA).withOpacity(0.3),
+                      color: const Color(0xFF667EEA).withValues(alpha: 0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -648,11 +648,11 @@ class _VitalsScreenState extends State<VitalsScreen>
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent.withOpacity(0.1),
+                      color: Colors.redAccent.withValues(alpha: 0.1),
                       borderRadius:
                           BorderRadius.circular(AppTheme.radiusMedium),
                       border:
-                          Border.all(color: Colors.redAccent.withOpacity(0.3)),
+                          Border.all(color: Colors.redAccent.withValues(alpha: 0.3)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -789,7 +789,7 @@ class _VitalsScreenState extends State<VitalsScreen>
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: gradient[0].withOpacity(0.5),
+                        color: gradient[0].withValues(alpha: 0.5),
                         blurRadius: 4,
                       ),
                     ],
@@ -886,9 +886,9 @@ class _VitalsScreenState extends State<VitalsScreen>
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: alertColor.withOpacity(0.08),
+        color: alertColor.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
-        border: Border.all(color: alertColor.withOpacity(0.3)),
+        border: Border.all(color: alertColor.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -909,7 +909,7 @@ class _VitalsScreenState extends State<VitalsScreen>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: alertColor.withOpacity(0.15),
+                        color: alertColor.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -992,7 +992,7 @@ class _VitalsGraphPainter extends CustomPainter {
 
     // Grid lines
     final gridPaint = Paint()
-      ..color = (isDark ? Colors.white : Colors.black).withOpacity(0.06)
+      ..color = (isDark ? Colors.white : Colors.black).withValues(alpha: 0.06)
       ..strokeWidth = 0.5;
 
     for (int i = 0; i <= 4; i++) {
@@ -1005,9 +1005,9 @@ class _VitalsGraphPainter extends CustomPainter {
     final scanPaint = Paint()
       ..shader = LinearGradient(
         colors: [
-          gradient[0].withOpacity(0.0),
-          gradient[0].withOpacity(0.08),
-          gradient[0].withOpacity(0.0),
+          gradient[0].withValues(alpha: 0.0),
+          gradient[0].withValues(alpha: 0.08),
+          gradient[0].withValues(alpha: 0.0),
         ],
         stops: const [0.0, 0.5, 1.0],
       ).createShader(Rect.fromLTWH(scanX - 20, 0, 40, h));
@@ -1016,7 +1016,7 @@ class _VitalsGraphPainter extends CustomPainter {
     if (isBP) {
       _drawLine(canvas, size, points, (p) => p.systolic, range, gradient);
       _drawLine(canvas, size, points, (p) => p.diastolic, range,
-          [gradient[1].withOpacity(0.6), gradient[0].withOpacity(0.6)]);
+          [gradient[1].withValues(alpha: 0.6), gradient[0].withValues(alpha: 0.6)]);
       _drawAreaFill(canvas, size, points, (p) => p.systolic, (p) => p.diastolic,
           range, gradient);
     } else {
@@ -1094,7 +1094,7 @@ class _VitalsGraphPainter extends CustomPainter {
 
       // Glow trail
       final glowTrailPaint = Paint()
-        ..color = colors[0].withOpacity(0.25)
+        ..color = colors[0].withValues(alpha: 0.25)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 6.0
         ..strokeCap = StrokeCap.round
@@ -1110,7 +1110,7 @@ class _VitalsGraphPainter extends CustomPainter {
 
     // Outer glow (pulsating)
     final glowPaint = Paint()
-      ..color = colors[0].withOpacity(0.15 + pulse * 0.25)
+      ..color = colors[0].withValues(alpha: 0.15 + pulse * 0.25)
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4 + pulse * 8);
     canvas.drawCircle(Offset(lastX, lastY), 6 + pulse * 6, glowPaint);
 
@@ -1160,7 +1160,7 @@ class _VitalsGraphPainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [colors[0].withOpacity(0.15), colors[0].withOpacity(0.0)],
+        colors: [colors[0].withValues(alpha: 0.15), colors[0].withValues(alpha: 0.0)],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
 
     canvas.drawPath(path, areaPaint);
@@ -1202,7 +1202,7 @@ class _VitalsGraphPainter extends CustomPainter {
 
     path.close();
 
-    final areaPaint = Paint()..color = colors[0].withOpacity(0.1);
+    final areaPaint = Paint()..color = colors[0].withValues(alpha: 0.1);
     canvas.drawPath(path, areaPaint);
   }
 

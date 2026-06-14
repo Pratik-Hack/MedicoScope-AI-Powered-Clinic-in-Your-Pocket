@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -420,7 +420,7 @@ class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
                   width: 38,
                   height: 38,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFF9800).withOpacity(0.15),
+                    color: const Color(0xFFFF9800).withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(Icons.person_outline,
@@ -460,7 +460,7 @@ class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                color: const Color(0xFF7C4DFF).withOpacity(0.08),
+                color: const Color(0xFF7C4DFF).withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -558,7 +558,7 @@ class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: accent.withOpacity(0.15),
+                color: accent.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(

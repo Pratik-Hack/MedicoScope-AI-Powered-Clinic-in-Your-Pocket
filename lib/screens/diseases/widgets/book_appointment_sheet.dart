@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:medicoscope/core/constants/disease_constants.dart';
@@ -98,6 +98,7 @@ class _BookAppointmentSheetState extends State<_BookAppointmentSheet> {
             ? 'general'
             : DiseaseRegistry.of(widget.disease!).title.toLowerCase(),
         reason: _reasonCtrl.text.trim(),
+        authToken: auth.token,
       );
       if (!mounted) return;
       setState(() {
@@ -161,7 +162,7 @@ class _BookAppointmentSheetState extends State<_BookAppointmentSheet> {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: accent.withOpacity(0.15),
+                color: accent.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(Icons.event_available, color: accent),
@@ -213,9 +214,9 @@ class _BookAppointmentSheetState extends State<_BookAppointmentSheet> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             decoration: BoxDecoration(
-              color: accent.withOpacity(0.08),
+              color: accent.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: accent.withOpacity(0.25)),
+              border: Border.all(color: accent.withValues(alpha: 0.25)),
             ),
             child: Row(
               children: [
@@ -261,8 +262,8 @@ class _BookAppointmentSheetState extends State<_BookAppointmentSheet> {
             ),
             filled: true,
             fillColor: isDark
-                ? Colors.white.withOpacity(0.05)
-                : Colors.grey.withOpacity(0.08),
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.grey.withValues(alpha: 0.08),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -274,10 +275,10 @@ class _BookAppointmentSheetState extends State<_BookAppointmentSheet> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: const Color(0xFFFF5252).withOpacity(0.12),
+              color: const Color(0xFFFF5252).withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                  color: const Color(0xFFFF5252).withOpacity(0.35)),
+                  color: const Color(0xFFFF5252).withValues(alpha: 0.35)),
             ),
             child: Row(
               children: [
@@ -339,7 +340,7 @@ class _BookAppointmentSheetState extends State<_BookAppointmentSheet> {
           width: 72,
           height: 72,
           decoration: BoxDecoration(
-            color: const Color(0xFF4CAF50).withOpacity(0.15),
+            color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
             shape: BoxShape.circle,
           ),
           child: const Icon(Icons.check_rounded,

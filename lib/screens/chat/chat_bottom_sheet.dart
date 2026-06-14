@@ -1,3 +1,5 @@
+﻿import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
@@ -176,6 +178,7 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
 
     final auth = Provider.of<AuthProvider>(context, listen: false);
     final sessionId = auth.user?.id ?? 'anonymous';
+    final lang = Provider.of<LocaleProvider>(context, listen: false).languageCode;
 
     // Wait for profile if not yet loaded
     if (!_profileLoaded) {
@@ -212,9 +215,6 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
       return;
     }
 
-    final lang =
-        Provider.of<LocaleProvider>(context, listen: false).languageCode;
-
     String? streamError;
     try {
       // Use streaming endpoint for real-time token delivery
@@ -234,8 +234,8 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
       }
 
       // Streaming complete — move streamed text to messages list
+      final finalText = _streamingText;
       if (mounted) {
-        final finalText = _streamingText;
         setState(() {
           if (finalText.isNotEmpty) {
             _messages.add(_ChatMsg(text: finalText, isUser: false));
@@ -245,7 +245,18 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
         });
       }
 
+      // Persist the exchange to MongoDB (durable chat history). Best-effort.
+      if (auth.token != null && finalText.isNotEmpty) {
+        unawaited(ChatService.saveMessageToDb(
+          token: auth.token!,
+          sessionId: sessionId,
+          userMessage: text,
+          assistantMessage: finalText,
+        ));
+      }
+
       // Award chat coins
+      if (!mounted) return;
       final coinsProvider = Provider.of<CoinsProvider>(context, listen: false);
       await coinsProvider.addChatCoins();
       _scrollToBottom();
@@ -274,6 +285,16 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
           _isLoading = false;
         });
       }
+      // Persist the fallback exchange to MongoDB. Best-effort.
+      if (auth.token != null && reply.isNotEmpty) {
+        unawaited(ChatService.saveMessageToDb(
+          token: auth.token!,
+          sessionId: sessionId,
+          userMessage: text,
+          assistantMessage: reply,
+        ));
+      }
+      if (!mounted) return;
       final coinsProvider = Provider.of<CoinsProvider>(context, listen: false);
       await coinsProvider.addChatCoins();
     } catch (e) {
@@ -337,7 +358,9 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
     // Explicit phrases
     if (t.contains('appointment') &&
         (t.contains('with') || t.contains('please') || t.contains('want') ||
-            t.contains('can you'))) return true;
+            t.contains('can you'))) {
+      return true;
+    }
     return false;
   }
 
@@ -381,6 +404,7 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
         preferredSlot: slot,
         modality: 'general',
         reason: 'Requested via MedicoScope chat: "$text"',
+        authToken: auth.token,
       );
       if (!mounted) return;
       setState(() {
@@ -458,7 +482,7 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 blurRadius: 20,
                 offset: const Offset(0, -4),
               ),
@@ -530,7 +554,7 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF4ECDC4).withOpacity(0.15),
+                        color: const Color(0xFF4ECDC4).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
@@ -629,8 +653,8 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
                 padding: EdgeInsets.fromLTRB(14, 10, 14, 10 + bottomPadding),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? AppTheme.darkCard.withOpacity(0.7)
-                      : Colors.white.withOpacity(0.8),
+                      ? AppTheme.darkCard.withValues(alpha: 0.7)
+                      : Colors.white.withValues(alpha: 0.8),
                   border: Border(
                     top: BorderSide(
                       color: isDark ? Colors.white10 : Colors.grey.shade300,
@@ -643,8 +667,8 @@ class _ChatBottomSheetState extends State<_ChatBottomSheet> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.white.withOpacity(0.08)
-                              : Colors.grey.withOpacity(0.1),
+                              ? Colors.white.withValues(alpha: 0.08)
+                              : Colors.grey.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(22),
                         ),
                         child: TextField(

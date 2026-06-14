@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+﻿import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -287,7 +287,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF4ECDC4).withOpacity(0.25),
+                        color: const Color(0xFF4ECDC4).withValues(alpha: 0.25),
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -300,7 +300,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                         border: Border.all(color: Colors.white, width: 3),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF4ECDC4).withOpacity(0.6),
+                            color: const Color(0xFF4ECDC4).withValues(alpha: 0.6),
                             blurRadius: 8,
                           ),
                         ],
@@ -343,10 +343,10 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                            color: pinColor.withOpacity(0.4), width: 1),
+                            color: pinColor.withValues(alpha: 0.4), width: 1),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.18),
+                            color: Colors.black.withValues(alpha: 0.18),
                             blurRadius: 6,
                             offset: const Offset(0, 2),
                           ),
@@ -379,7 +379,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                         border: Border.all(color: Colors.white, width: 2.5),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withValues(alpha: 0.3),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -514,9 +514,9 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: c.withOpacity(0.15),
+                    color: c.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: c.withOpacity(0.4)),
+                    border: Border.all(color: c.withValues(alpha: 0.4)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -568,7 +568,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
               const BorderRadius.vertical(top: Radius.circular(22)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(alpha: 0.2),
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),
@@ -676,7 +676,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                     color: (isRecommended
                             ? const Color(0xFFFF5252)
                             : const Color(0xFF7C4DFF))
-                        .withOpacity(0.18),
+                        .withValues(alpha: 0.18),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -728,7 +728,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                                   horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFFF5252)
-                                    .withOpacity(0.15),
+                                    .withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: const Text(
@@ -846,12 +846,12 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: isDark
-                ? Colors.white.withOpacity(0.04)
-                : Colors.grey.withOpacity(0.08),
+                ? Colors.white.withValues(alpha: 0.04)
+                : Colors.grey.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
             border: isRecommended
                 ? Border.all(
-                    color: const Color(0xFFFF5252).withOpacity(0.5), width: 1.5)
+                    color: const Color(0xFFFF5252).withValues(alpha: 0.5), width: 1.5)
                 : null,
           ),
           child: Row(
@@ -863,7 +863,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                   color: (isRecommended
                           ? const Color(0xFFFF5252)
                           : const Color(0xFF7C4DFF))
-                      .withOpacity(0.15),
+                      .withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -900,7 +900,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 2),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFF5252).withOpacity(0.15),
+                              color: const Color(0xFFFF5252).withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: const Text(
@@ -975,7 +975,7 @@ class _NearbyDoctorsScreenState extends State<NearbyDoctorsScreen> {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 14,
               ),
             ],

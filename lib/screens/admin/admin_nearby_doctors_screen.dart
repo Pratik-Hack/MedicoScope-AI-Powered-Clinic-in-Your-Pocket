@@ -42,6 +42,7 @@ class _AdminNearbyDoctorsScreenState extends State<AdminNearbyDoctorsScreen> {
   }
 
   Future<void> _deleteDoctor(String id) async {
+    final token = Provider.of<AuthProvider>(context, listen: false).token;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -60,7 +61,6 @@ class _AdminNearbyDoctorsScreenState extends State<AdminNearbyDoctorsScreen> {
     if (confirm != true) return;
 
     try {
-      final token = Provider.of<AuthProvider>(context, listen: false).token;
       final api = ApiService(token: token);
       await api.delete('${ApiConstants.adminNearbyDoctors}/$id');
       _loadDoctors();

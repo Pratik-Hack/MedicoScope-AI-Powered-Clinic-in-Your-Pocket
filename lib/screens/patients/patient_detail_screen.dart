@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/dashboard_tile.dart';
@@ -60,7 +60,10 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
     final doctorId = authProvider.user?.id ?? '';
     final patientId = widget.patient['userId']?.toString() ?? '';
     try {
-      final all = await VitalsService.getDoctorAlerts(doctorId: doctorId);
+      final all = await VitalsService.getDoctorAlerts(
+        doctorId: doctorId,
+        authToken: authProvider.token,
+      );
       setState(() {
         _vitalsAlerts = all
             .where((a) =>
@@ -76,7 +79,8 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
 
   Future<void> _deleteVitalsAlert(String alertId) async {
     try {
-      await VitalsService.deleteAlert(alertId: alertId);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await VitalsService.deleteAlert(alertId: alertId, authToken: authProvider.token);
       setState(() {
         _vitalsAlerts.removeWhere((a) => a['id'] == alertId);
       });
@@ -239,7 +243,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                         CircleAvatar(
                           radius: 36,
                           backgroundColor:
-                              AppTheme.primaryOrange.withOpacity(0.15),
+                              AppTheme.primaryOrange.withValues(alpha: 0.15),
                           child: Text(
                             name[0].toUpperCase(),
                             style: const TextStyle(
@@ -296,7 +300,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                                 ),
                                 decoration: BoxDecoration(
                                   color:
-                                      AppTheme.primaryOrange.withOpacity(0.1),
+                                      AppTheme.primaryOrange.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
@@ -433,7 +437,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                                     ),
                                     decoration: BoxDecoration(
                                       color: _severityColor(severity)
-                                          .withOpacity(0.15),
+                                          .withValues(alpha: 0.15),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
@@ -593,7 +597,7 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                                     ),
                                     decoration: BoxDecoration(
                                       color: _urgencyColor(urgency)
-                                          .withOpacity(0.15),
+                                          .withValues(alpha: 0.15),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
@@ -667,8 +671,8 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: isDark
-            ? Colors.white.withOpacity(0.1)
-            : Colors.black.withOpacity(0.05),
+            ? Colors.white.withValues(alpha: 0.1)
+            : Colors.black.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(

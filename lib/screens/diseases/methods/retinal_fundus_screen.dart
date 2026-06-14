@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -299,7 +299,7 @@ class _RetinalFundusScreenState extends State<RetinalFundusScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: accent.withOpacity(0.3),
+                  color: accent.withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -361,7 +361,7 @@ class _RetinalFundusScreenState extends State<RetinalFundusScreen> {
                   label: const Text('Gallery'),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: BorderSide(color: accent.withOpacity(0.5)),
+                    side: BorderSide(color: accent.withValues(alpha: 0.5)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),

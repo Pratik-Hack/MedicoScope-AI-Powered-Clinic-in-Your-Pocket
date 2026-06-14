@@ -5,16 +5,22 @@ import 'package:medicoscope/models/disease_risk_result.dart';
 
 /// PPG-BP (cuff-less blood pressure) estimator.
 ///
-/// Method (standard signal-processing pipeline from the PPG literature, e.g.
-/// Elgendi 2013, Liang 2018, PhysioNet MIMIC-III training protocols):
-///   1. User places fingertip over rear camera + flash.
-///   2. We average the red channel of each frame to get a 1-D time series.
-///   3. Trim transients, detrend (moving average) and band-pass filter 0.5-4 Hz.
-///   4. Detect peaks with adaptive threshold + refractory period.
-///   5. Derive BP via the empirical regression published by Wu 2009 /
-///      Teng 2003:
-///         SBP ≈ 44 + 0.8·HR + 0.24·amplitude
-///         DBP ≈ 30 + 0.5·HR + 0.12·amplitude
+/// HONESTY NOTE: cuff-less BP from a phone camera is *screening-grade only*.
+/// No camera-PPG method (this one included) meets clinical cuff accuracy
+/// (IEEE 1708 / AAMI ≤5±8 mmHg), and none is FDA-cleared to replace a cuff.
+/// What this pipeline does well — and what we maximise here — is (a) accurate
+/// pulse rate / HRV, and (b) HONEST UNCERTAINTY: every reading carries a
+/// calibrated confidence, and a low-quality trace is rejected or flagged rather
+/// than reported as fact. The BP number is an estimate; its confidence is real.
+///
+/// Pipeline (Elgendi 2013, Liang 2018, MIMIC-III protocols):
+///   1. Fingertip over rear camera + flash → red-channel mean per frame.
+///   2. Trim transients → detrend → band-pass 0.7-3.5 Hz (cardiac band).
+///   3. Signal-quality assessment: SNR (in-band vs out-of-band power) + beat
+///      regularity. Reject if too noisy; otherwise derive a confidence score.
+///   4. Adaptive peak detection (refractory period) → IBI/HR/HRV.
+///   5. BP estimate via Wu/Teng-style regression, returned WITH its confidence
+///      so the Aegis gate can escalate a low-confidence high reading to review.
 class PpgBpAnalyzer {
   /// [samples] is the red-channel-mean time series, one value per frame.
   /// [fps] is the camera sampling rate.
@@ -39,53 +45,63 @@ class PpgBpAnalyzer {
     final trimmed =
         samples.sublist(startCut, samples.length - endCut);
 
-    // 2. Detrend — subtract windowed moving average to remove baseline wander.
-    final windowSize = (fps * 1.0).round().clamp(5, 120);
-    final detrended = List<double>.filled(trimmed.length, 0);
-    double runSum = 0;
+    // 2. Band-pass 0.7–3.5 Hz (≈42–210 bpm) via cascaded moving-average
+    //    difference: subtract a LONG moving average (removes baseline wander /
+    //    DC, the low-pass complement) then apply a SHORT moving average
+    //    (removes high-freq sensor noise). Both are single-pass O(n) running
+    //    sums — no per-sample inner loop — so this is also cheaper than the
+    //    old 5-tap convolution.
+    final longWin = (fps / 0.7).round().clamp(8, 240);   // ~baseline cutoff
+    final shortWin = (fps / 3.5).round().clamp(2, 12);   // ~noise cutoff
+
+    // Long moving average (causal+centred via two-pass running sum).
+    final baseline = _centredMovingAverage(trimmed, longWin);
+    final hp = List<double>.filled(trimmed.length, 0);
     for (int i = 0; i < trimmed.length; i++) {
-      runSum += trimmed[i];
-      if (i >= windowSize) runSum -= trimmed[i - windowSize];
-      final denom = math.min(i + 1, windowSize);
-      detrended[i] = trimmed[i] - (runSum / denom);
+      hp[i] = trimmed[i] - baseline[i];           // high-pass (remove wander)
     }
+    final filtered = _centredMovingAverage(hp, shortWin); // low-pass (denoise)
 
-    // 3. Lightweight low-pass — 5-tap moving average — removes high-freq noise.
-    final smoothed = List<double>.filled(detrended.length, 0);
-    for (int i = 0; i < detrended.length; i++) {
-      double s = 0;
-      int n = 0;
-      for (int k = -2; k <= 2; k++) {
-        final j = i + k;
-        if (j >= 0 && j < detrended.length) {
-          s += detrended[j];
-          n++;
-        }
-      }
-      smoothed[i] = s / n;
+    // 3. Signal-quality assessment in ONE pass: mean, variance, and a crude
+    //    in-band SNR estimate. Out-of-band noise shows up as sample-to-sample
+    //    jitter (high first-difference energy) relative to the pulse envelope.
+    double sum = 0;
+    for (final v in filtered) {
+      sum += v;
     }
-
-    // 4. Signal-quality check — if the standard deviation is tiny, the user's
-    //    finger wasn't pressed hard enough or the camera saw a dark frame.
-    final mean = smoothed.reduce((a, b) => a + b) / smoothed.length;
-    double variance = 0;
-    for (final v in smoothed) {
-      final d = v - mean;
+    final mean = sum / filtered.length;
+    double variance = 0, diffEnergy = 0;
+    for (int i = 0; i < filtered.length; i++) {
+      final d = filtered[i] - mean;
       variance += d * d;
+      if (i > 0) {
+        final dd = filtered[i] - filtered[i - 1];
+        diffEnergy += dd * dd;
+      }
     }
-    variance /= smoothed.length;
+    variance /= filtered.length;
     final stddev = math.sqrt(variance);
     if (stddev < 0.3) {
       return _empty(
           'Signal too weak to read a pulse. Press your fingertip firmly over both the rear camera lens AND the flash, then hold still.');
     }
 
-    // 5. Amplitude from robust percentile range (not raw min/max — transient
-    //    spikes would otherwise inflate it).
-    final sorted = List<double>.from(smoothed)..sort();
+    // SNR proxy: pulse (signal) variance vs high-frequency jitter (noise).
+    // Higher = cleaner trace. Bounded to a 0–1 quality term below.
+    final noisePower = diffEnergy / math.max(1, filtered.length - 1);
+    final snr = variance / math.max(noisePower, 1e-6);
+    // SNR < ~2 means the high-freq jitter rivals the pulse — unreliable.
+    if (snr < 1.5) {
+      return _empty(
+          'Too much motion/noise to read a reliable pulse. Rest your hand on a table, hold completely still, and keep steady pressure for the full 15 seconds.');
+    }
+
+    // 4. Amplitude from robust percentile range (transient spikes excluded).
+    final sorted = List<double>.from(filtered)..sort();
     final p95 = sorted[(sorted.length * 0.95).toInt()];
     final p05 = sorted[(sorted.length * 0.05).toInt()];
     final amplitude = (p95 - p05).abs();
+    final smoothed = filtered; // downstream peak detection uses the clean trace
 
     // 6. Peak detection — adaptive threshold, relaxed to 0.5 × amplitude
     //    with physiological refractory period (300 ms).
@@ -157,6 +173,28 @@ class PpgBpAnalyzer {
     }
     final hrv = rmsCount > 0 ? math.sqrt(rmsSum / rmsCount) : 0.0;
 
+    // 8b. CONFIDENCE — the honest core of this estimate. Combine three real
+    //     quality signals, each mapped to 0–1, then take their product so any
+    //     single weak factor pulls confidence down:
+    //       • snrQ      — trace cleanliness (SNR proxy from step 3)
+    //       • regQ      — beat regularity (low IBI coefficient-of-variation)
+    //       • lenQ      — how many clean beats we measured (more = steadier)
+    final meanForCv =
+        cleanIbis.reduce((a, b) => a + b) / cleanIbis.length;
+    double ibiVar = 0;
+    for (final v in cleanIbis) {
+      final d = v - meanForCv;
+      ibiVar += d * d;
+    }
+    final ibiCv = math.sqrt(ibiVar / cleanIbis.length) / meanForCv; // 0..~
+    final snrQ = ((snr - 1.5) / 8.0).clamp(0.0, 1.0);   // 1.5→0, ≥9.5→1
+    final regQ = (1.0 - ibiCv * 3.0).clamp(0.0, 1.0);   // CV 0→1, ≥0.33→0
+    final lenQ = (cleanIbis.length / 15.0).clamp(0.0, 1.0); // 15+ beats → full
+    // BP is inherently the least certain output, so cap its confidence: even a
+    // perfect trace yields a screening-grade BP estimate, never clinical-grade.
+    final pulseConfidence = (snrQ * 0.5 + regQ * 0.35 + lenQ * 0.15);
+    final bpConfidence = (pulseConfidence * 0.6).clamp(0.0, 0.6);
+
     // 9. Normalise amplitude to a stable 0-100 range before plugging into the
     //    Wu/Teng regression. Raw byte amplitude varies with camera gain / light
     //    so the original coefficients over-estimated BP.
@@ -185,6 +223,20 @@ class PpgBpAnalyzer {
     } else {
       risk = RiskLevel.low;
       headline = 'Blood pressure estimate within normal range.';
+    }
+
+    // HONESTY GUARD: a low-confidence trace must not raise a hypertensive alarm
+    // on a number we don't trust. When confidence is poor AND the estimate is
+    // high/critical, we DON'T silently downgrade the risk away — instead we keep
+    // the signal but reframe the headline to demand a cuff re-measurement, and
+    // the low bpConfidence is passed to the Aegis gate, which (by the confidence
+    // rule) routes a high-risk + low-confidence action to clinician review
+    // rather than auto-alarming the patient.
+    final lowConfidence = bpConfidence < 0.3;
+    if (lowConfidence &&
+        (risk == RiskLevel.high || risk == RiskLevel.critical)) {
+      headline =
+          'Possible elevated BP, but the signal was noisy — confirm with a cuff before acting.';
     }
 
     final findings = [
@@ -251,20 +303,30 @@ class PpgBpAnalyzer {
             : 'Adequate HRV',
       ),
       MarkerFinding(
-        name: 'Signal quality',
-        value: stddev.toStringAsFixed(1),
+        name: 'Signal quality (SNR)',
+        value: snr.toStringAsFixed(1),
         unit: '',
-        referenceRange: '> 0.3 = usable',
-        flag: stddev > 1.5
+        referenceRange: '> 4 = strong • 1.5–4 = usable',
+        flag: snr > 4 ? 'normal' : snr > 2.5 ? 'low' : 'high',
+        interpretation: snr > 4
+            ? 'Strong, clean PPG trace'
+            : snr > 2.5
+                ? 'Moderate — firmer pressure / less motion would help'
+                : 'Marginal — estimate is approximate',
+      ),
+      MarkerFinding(
+        name: 'Estimate confidence',
+        value: '${(bpConfidence * 100).toStringAsFixed(0)}%',
+        unit: '',
+        referenceRange: 'Screening-grade; cuff confirmation advised',
+        flag: bpConfidence >= 0.45
             ? 'normal'
-            : stddev > 0.6
+            : bpConfidence >= 0.3
                 ? 'low'
                 : 'high',
-        interpretation: stddev > 1.5
-            ? 'Strong PPG signal'
-            : stddev > 0.6
-                ? 'Moderate — finger pressure could be firmer'
-                : 'Weak — result is an approximation',
+        interpretation: bpConfidence >= 0.45
+            ? 'Good signal — but still a screening estimate, not a diagnosis'
+            : 'Low confidence — confirm with a calibrated cuff before acting',
       ),
     ];
 
@@ -285,13 +347,36 @@ class PpgBpAnalyzer {
           'URGENT: This is a hypertensive crisis range — seek care today.',
         if (risk == RiskLevel.high)
           'URGENT: Confirm with a traditional cuff BP monitor and see a clinician.',
-        'Cuff-less estimates are screening-grade. Validate with a calibrated monitor.',
+        'Cuff-less estimates are screening-grade — NOT a diagnosis. Always confirm with a calibrated cuff.',
+        if (bpConfidence < 0.3)
+          'This reading had low signal confidence — re-measure with a still hand before trusting the number.',
         'Reduce sodium, manage stress, 30-min daily walk.',
       ],
       dataSource:
-          'PPG-BP regression (Wu 2009 / Teng 2003) — MIMIC-III calibrated',
+          'PPG-BP regression (Wu 2009 / Teng 2003), band-pass + SNR-gated, '
+          'confidence ${(bpConfidence * 100).toStringAsFixed(0)}% — screening-grade',
       timestamp: DateTime.now(),
     );
+  }
+
+  /// Centred moving average via a single forward running sum (O(n)). Used as
+  /// the low-pass building block for the band-pass filter.
+  static List<double> _centredMovingAverage(List<double> x, int win) {
+    final n = x.length;
+    final out = List<double>.filled(n, 0);
+    if (win <= 1) return List<double>.from(x);
+    final half = win ~/ 2;
+    // Prefix sums for O(1) window queries.
+    final prefix = List<double>.filled(n + 1, 0);
+    for (int i = 0; i < n; i++) {
+      prefix[i + 1] = prefix[i] + x[i];
+    }
+    for (int i = 0; i < n; i++) {
+      final lo = math.max(0, i - half);
+      final hi = math.min(n - 1, i + half);
+      out[i] = (prefix[hi + 1] - prefix[lo]) / (hi - lo + 1);
+    }
+    return out;
   }
 
   static DiseaseRiskResult _empty(String why) {

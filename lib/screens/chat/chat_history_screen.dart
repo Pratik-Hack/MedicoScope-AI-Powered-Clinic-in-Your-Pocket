@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/providers/auth_provider.dart';
@@ -309,7 +309,7 @@ class _ChatDetailScreen extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: isUser
-                              ? AppTheme.primaryOrange.withOpacity(0.9)
+                              ? AppTheme.primaryOrange.withValues(alpha: 0.9)
                               : (isDark ? AppTheme.darkCard : Colors.white),
                           borderRadius: BorderRadius.only(
                             topLeft: const Radius.circular(16),
@@ -319,7 +319,7 @@ class _ChatDetailScreen extends StatelessWidget {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),

@@ -1,4 +1,4 @@
-import 'dart:math';
+﻿import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -177,7 +177,7 @@ class _HeartResultsScreenState extends State<HeartResultsScreen>
                                     width: 44,
                                     height: 44,
                                     decoration: BoxDecoration(
-                                      color: sevColor.withOpacity(0.15),
+                                      color: sevColor.withValues(alpha: 0.15),
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -200,7 +200,7 @@ class _HeartResultsScreenState extends State<HeartResultsScreen>
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                                     decoration: BoxDecoration(
-                                      color: sevColor.withOpacity(0.15),
+                                      color: sevColor.withValues(alpha: 0.15),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
@@ -304,7 +304,7 @@ class _HeartResultsScreenState extends State<HeartResultsScreen>
                             color: const Color(0xFF0D1117),
                             borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                             border: Border.all(
-                              color: const Color(0xFF00FF00).withOpacity(0.15),
+                              color: const Color(0xFF00FF00).withValues(alpha: 0.15),
                               width: 1,
                             ),
                           ),
@@ -398,7 +398,7 @@ class _HeartResultsScreenState extends State<HeartResultsScreen>
                                   width: 32,
                                   height: 32,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF667EEA).withOpacity(0.15),
+                                    color: const Color(0xFF667EEA).withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: const Icon(
@@ -458,7 +458,7 @@ class _HeartResultsScreenState extends State<HeartResultsScreen>
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFF5252).withOpacity(0.5),
+                color: const Color(0xFFFF5252).withValues(alpha: 0.5),
                 blurRadius: 4,
               ),
             ],
@@ -590,7 +590,7 @@ class _HeartRateChart extends StatelessWidget {
         extraLinesData: _extraLines(showAvg: true),
         lineBarsData: [
           if (stale.length > 1)
-            _line(stale, const Color(0xFFFF5252).withOpacity(0.2), 1.5,
+            _line(stale, const Color(0xFFFF5252).withValues(alpha: 0.2), 1.5,
                 trailingDot: false, showArea: false),
           _line(fresh, const Color(0xFFFF5252), 2.5, trailingDot: true),
         ],
@@ -627,7 +627,7 @@ class _HeartRateChart extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [color.withOpacity(0.2), color.withOpacity(0.0)],
+          colors: [color.withValues(alpha: 0.2), color.withValues(alpha: 0.0)],
         ),
       ),
     );
@@ -667,14 +667,14 @@ class _HeartRateChart extends StatelessWidget {
 
   ExtraLinesData _extraLines({required bool showAvg}) => ExtraLinesData(
         horizontalLines: [
-          HorizontalLine(y: 60, color: const Color(0xFF4CAF50).withOpacity(0.2),
+          HorizontalLine(y: 60, color: const Color(0xFF4CAF50).withValues(alpha: 0.2),
               strokeWidth: 0.8, dashArray: [4, 4]),
-          HorizontalLine(y: 100, color: const Color(0xFF4CAF50).withOpacity(0.2),
+          HorizontalLine(y: 100, color: const Color(0xFF4CAF50).withValues(alpha: 0.2),
               strokeWidth: 0.8, dashArray: [4, 4]),
           if (showAvg)
             HorizontalLine(
               y: avgBpm,
-              color: const Color(0xFFFF9800).withOpacity(0.5),
+              color: const Color(0xFFFF9800).withValues(alpha: 0.5),
               strokeWidth: 1, dashArray: [6, 4],
               label: HorizontalLineLabel(
                 show: true, alignment: Alignment.topRight,
@@ -720,9 +720,9 @@ class _EcgChart extends StatelessWidget {
       horizontalInterval: range / 4,
       verticalInterval: n / 6,
       getDrawingHorizontalLine: (v) => FlLine(
-          color: const Color(0xFF00FF00).withOpacity(0.07), strokeWidth: 0.5),
+          color: const Color(0xFF00FF00).withValues(alpha: 0.07), strokeWidth: 0.5),
       getDrawingVerticalLine: (v) => FlLine(
-          color: const Color(0xFF00FF00).withOpacity(0.07), strokeWidth: 0.5),
+          color: const Color(0xFF00FF00).withValues(alpha: 0.07), strokeWidth: 0.5),
     );
 
     if (!isLive) {
@@ -771,7 +771,7 @@ class _EcgChart extends StatelessWidget {
         borderData: FlBorderData(show: false),
         lineBarsData: [
           if (stale.length > 1)
-            _ecgLine(stale, const Color(0xFF00FF00).withOpacity(0.18), 1.0,
+            _ecgLine(stale, const Color(0xFF00FF00).withValues(alpha: 0.18), 1.0,
                 sweepDot: false, glow: false),
           if (fresh.isNotEmpty)
             _ecgLine(fresh, const Color(0xFF00FF00), 1.5, sweepDot: true),
@@ -797,7 +797,7 @@ class _EcgChart extends StatelessWidget {
                 radius: 3,
                 color: const Color(0xFF00FF00),
                 strokeWidth: 1.5,
-                strokeColor: const Color(0xFF00FF00).withOpacity(0.5));
+                strokeColor: const Color(0xFF00FF00).withValues(alpha: 0.5));
           }
           return FlDotCirclePainter(
               radius: 0, color: Colors.transparent,
@@ -806,7 +806,7 @@ class _EcgChart extends StatelessWidget {
       ),
       shadow: glow
           ? Shadow(
-              color: const Color(0xFF00FF00).withOpacity(0.4), blurRadius: 6)
+              color: const Color(0xFF00FF00).withValues(alpha: 0.4), blurRadius: 6)
           : const Shadow(color: Colors.transparent, blurRadius: 0),
     );
   }
@@ -905,8 +905,8 @@ class _WaveformChart extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color(0xFF00BCD4).withOpacity(0.12),
-                  const Color(0xFF00BCD4).withOpacity(0.0),
+                  const Color(0xFF00BCD4).withValues(alpha: 0.12),
+                  const Color(0xFF00BCD4).withValues(alpha: 0.0),
                 ],
               ),
             ),

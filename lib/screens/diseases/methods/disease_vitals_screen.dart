@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -350,12 +350,12 @@ class _DiseaseVitalsScreenState extends State<DiseaseVitalsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color.withOpacity(0.22), color.withOpacity(0.10)],
+          colors: [color.withValues(alpha: 0.22), color.withValues(alpha: 0.10)],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.45)),
+        border: Border.all(color: color.withValues(alpha: 0.45)),
       ),
       child: Row(
         children: [
@@ -378,7 +378,7 @@ class _DiseaseVitalsScreenState extends State<DiseaseVitalsScreen> {
                     subtitle,
                     style: TextStyle(
                       fontSize: 10.5,
-                      color: color.withOpacity(0.85),
+                      color: color.withValues(alpha: 0.85),
                     ),
                   ),
               ],
@@ -698,7 +698,7 @@ class _DiseaseVitalsScreenState extends State<DiseaseVitalsScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: gradient.first.withOpacity(0.35),
+              color: gradient.first.withValues(alpha: 0.35),
               blurRadius: 14,
               offset: const Offset(0, 6),
             ),
@@ -710,7 +710,7 @@ class _DiseaseVitalsScreenState extends State<DiseaseVitalsScreen> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: Colors.white, size: 24),
@@ -735,7 +735,7 @@ class _DiseaseVitalsScreenState extends State<DiseaseVitalsScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.25),
+                          color: Colors.white.withValues(alpha: 0.25),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
@@ -754,7 +754,7 @@ class _DiseaseVitalsScreenState extends State<DiseaseVitalsScreen> {
                     subtitle,
                     style: TextStyle(
                       fontSize: 11.5,
-                      color: Colors.white.withOpacity(0.92),
+                      color: Colors.white.withValues(alpha: 0.92),
                       height: 1.35,
                     ),
                   ),
@@ -800,14 +800,14 @@ class _MetricTile extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            accent.withOpacity(0.13),
-            accent.withOpacity(0.04),
+            accent.withValues(alpha: 0.13),
+            accent.withValues(alpha: 0.04),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: accent.withOpacity(0.25)),
+        border: Border.all(color: accent.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -855,7 +855,7 @@ class _BlinkingDot extends StatelessWidget {
         color: color,
         shape: BoxShape.circle,
         boxShadow: [
-          BoxShadow(color: color.withOpacity(0.6), blurRadius: 6),
+          BoxShadow(color: color.withValues(alpha: 0.6), blurRadius: 6),
         ],
       ),
     );
@@ -880,7 +880,7 @@ class _SparklinePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [color.withOpacity(0.35), color.withOpacity(0.01)],
+        colors: [color.withValues(alpha: 0.35), color.withValues(alpha: 0.01)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     final minV = data.reduce(math.min);
     final maxV = data.reduce(math.max);

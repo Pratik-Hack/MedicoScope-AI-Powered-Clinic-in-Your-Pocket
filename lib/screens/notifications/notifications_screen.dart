@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
@@ -82,7 +82,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     final userId = authProvider.user?.id ?? '';
 
     try {
-      final alerts = await VitalsService.getDoctorAlerts(doctorId: userId);
+      final alerts = await VitalsService.getDoctorAlerts(
+        doctorId: userId,
+        authToken: authProvider.token,
+      );
       if (!mounted) return;
       setState(() {
         _vitalsAlerts = alerts;
@@ -114,7 +117,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   Future<void> _markVitalsAsRead(String id) async {
     try {
-      await VitalsService.markAlertRead(alertId: id);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await VitalsService.markAlertRead(alertId: id, authToken: authProvider.token);
       setState(() {
         for (final a in _vitalsAlerts) {
           if (a['id'] == id) {
@@ -128,7 +132,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   Future<void> _deleteVitalsAlert(String id) async {
     try {
-      await VitalsService.deleteAlert(alertId: id);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await VitalsService.deleteAlert(alertId: id, authToken: authProvider.token);
       setState(() {
         _vitalsAlerts.removeWhere((a) => a['id'] == id);
       });
@@ -215,10 +220,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF7C4DFF).withOpacity(0.12),
+              color: const Color(0xFF7C4DFF).withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                  color: const Color(0xFF7C4DFF).withOpacity(0.35)),
+                  color: const Color(0xFF7C4DFF).withValues(alpha: 0.35)),
             ),
             child: Row(
               children: [
@@ -501,8 +506,8 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                 ),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? Colors.white.withOpacity(0.08)
-                      : Colors.black.withOpacity(0.05),
+                      ? Colors.white.withValues(alpha: 0.08)
+                      : Colors.black.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TabBar(
@@ -695,7 +700,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: _urgencyColor(severity).withOpacity(0.15),
+                            color: _urgencyColor(severity).withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -845,7 +850,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFF5252).withOpacity(0.1),
+                              color: const Color(0xFFFF5252).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -937,7 +942,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -1060,7 +1065,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: _urgencyColor(urgency).withOpacity(0.15),
+                            color: _urgencyColor(urgency).withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -1130,7 +1135,7 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                               ),
                               decoration: BoxDecoration(
                                 color:
-                                    const Color(0xFFFF5252).withOpacity(0.1),
+                                    const Color(0xFFFF5252).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Row(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/glass_card.dart';
@@ -270,7 +270,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 child: CircleAvatar(
                                   radius: 48,
                                   backgroundColor:
-                                      AppTheme.primaryOrange.withOpacity(0.15),
+                                      AppTheme.primaryOrange.withValues(alpha: 0.15),
                                   child: Text(
                                     _nameController.text.isNotEmpty
                                         ? _nameController.text[0].toUpperCase()

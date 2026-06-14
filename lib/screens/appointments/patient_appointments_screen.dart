@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -55,7 +55,7 @@ class _PatientAppointmentsScreenState
       patientId: user.id,
       token: auth.token!,
     );
-    final pending = await AppointmentService.getAll();
+    final pending = await AppointmentService.getAll(authToken: auth.token);
 
     if (!mounted) return;
     setState(() {
@@ -191,7 +191,7 @@ class _PatientAppointmentsScreenState
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: const Color(0xFF7C4DFF).withOpacity(0.15),
+                color: const Color(0xFF7C4DFF).withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(Icons.schedule,
@@ -256,7 +256,7 @@ class _PatientAppointmentsScreenState
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: accent.withOpacity(0.15),
+                      color: accent.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(icon, color: accent, size: 22),
@@ -322,7 +322,7 @@ class _PatientAppointmentsScreenState
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 decoration: BoxDecoration(
-                  color: accent.withOpacity(0.08),
+                  color: accent.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -370,7 +370,8 @@ class _PatientAppointmentsScreenState
 
   Future<void> _openResponseDetail(AppointmentResponse r) async {
     if (!r.read) {
-      await AppointmentResponseService.markRead(r.id);
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+      await AppointmentResponseService.markRead(r.id, authToken: auth.token);
       _refresh(silent: true);
     }
   }

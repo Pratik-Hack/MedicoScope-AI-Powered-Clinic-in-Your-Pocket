@@ -214,7 +214,7 @@ class AppointmentResponseService {
   static Future<int> unreadCount() async =>
       (await getAll()).where((r) => !r.read).length;
 
-  static Future<void> markRead(String id) async {
+  static Future<void> markRead(String id, {String? authToken}) async {
     final prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(_key) ?? const [];
     final updated = <String>[];
@@ -230,6 +230,20 @@ class AppointmentResponseService {
       }
     }
     await prefs.setStringList(_key, updated);
+
+    // Persist the acknowledgement to MongoDB so read-state follows the patient
+    // across devices (these ids are the backend notification ids). Best-effort.
+    if (authToken != null) {
+      try {
+        await http
+            .put(
+              Uri.parse(
+                  '${ApiConstants.baseUrl}/mental-health/notifications/$id/ack'),
+              headers: {'Authorization': 'Bearer $authToken'},
+            )
+            .timeout(const Duration(seconds: 10));
+      } catch (_) {}
+    }
   }
 
   /// Fetch all doctor responses routed to [patientId]. Uses the shared

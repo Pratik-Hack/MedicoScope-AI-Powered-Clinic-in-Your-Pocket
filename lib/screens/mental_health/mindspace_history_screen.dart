@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/providers/auth_provider.dart';
@@ -230,7 +230,7 @@ class _MindSpaceHistoryScreenState extends State<MindSpaceHistoryScreen> {
                                                       vertical: 4),
                                               decoration: BoxDecoration(
                                                 color: _urgencyColor(urgency)
-                                                    .withOpacity(0.15),
+                                                    .withValues(alpha: 0.15),
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                               ),

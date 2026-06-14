@@ -9,6 +9,7 @@ class MentalHealthService {
     required String patientId,
     required String patientName,
     required String doctorId,
+    String? authToken,
   }) async {
     final url = Uri.parse(
       '${ApiConstants.chatbotBaseUrl}${ApiConstants.mentalHealthAnalyze}',
@@ -18,7 +19,12 @@ class MentalHealthService {
       ..fields['patient_id'] = patientId
       ..fields['patient_name'] = patientName
       ..fields['doctor_id'] = doctorId
+      // Forwarded to the Node backend so the now-authenticated notification
+      // endpoint can bind identity and gate RED cases safely.
       ..files.add(await http.MultipartFile.fromPath('audio', filePath));
+    if (authToken != null) {
+      request.fields['auth_token'] = authToken;
+    }
 
     // Render free-tier cold start + Whisper transcription can take up to
     // ~3 minutes on the first call of the day; warm calls are ~5 seconds.

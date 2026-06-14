@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:image_picker/image_picker.dart';
@@ -132,6 +132,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
             }
           }
 
+          if (!mounted) return;
           Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
@@ -279,7 +280,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                           gradient: AppTheme.orangeGradient,
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.primaryOrange.withOpacity(0.3),
+                              color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                               blurRadius: 20,
                               offset: const Offset(0, 8),
                             ),

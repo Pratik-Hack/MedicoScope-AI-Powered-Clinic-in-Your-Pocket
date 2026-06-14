@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/glass_card.dart';
@@ -208,10 +208,10 @@ class ReportDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: _severityColor(severity).withOpacity(0.15),
+                        color: _severityColor(severity).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: _severityColor(severity).withOpacity(0.4),
+                          color: _severityColor(severity).withValues(alpha: 0.4),
                         ),
                       ),
                       child: Text(
@@ -274,7 +274,7 @@ class ReportDetailScreen extends StatelessWidget {
                                 width: 48,
                                 height: 48,
                                 decoration: BoxDecoration(
-                                  color: catColor.withOpacity(0.12),
+                                  color: catColor.withValues(alpha: 0.12),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Icon(

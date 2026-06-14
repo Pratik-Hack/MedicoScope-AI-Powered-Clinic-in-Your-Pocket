@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -149,6 +149,7 @@ class _HeartMonitoringScreenState extends State<HeartMonitoringScreen>
       _hourglassController.stop();
       _hourglassController.reset();
 
+      if (!mounted) return;
       // Save detection record
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final token = authProvider.token;
@@ -319,7 +320,7 @@ class _HeartMonitoringScreenState extends State<HeartMonitoringScreen>
                                 color: (_isRecording
                                         ? const Color(0xFFFF5252)
                                         : const Color(0xFFFF6B6B))
-                                    .withOpacity(0.4),
+                                    .withValues(alpha: 0.4),
                                 blurRadius: _isRecording ? 30 : 20,
                                 spreadRadius: _isRecording ? 5 : 0,
                               ),
@@ -378,7 +379,7 @@ class _HeartMonitoringScreenState extends State<HeartMonitoringScreen>
                               duration: 1500.ms,
                               color: isDark
                                   ? Colors.white24
-                                  : const Color(0xFFFF6B6B).withOpacity(0.3),
+                                  : const Color(0xFFFF6B6B).withValues(alpha: 0.3),
                             )
                       else
                         Text(
@@ -573,7 +574,7 @@ class _HeartMonitoringScreenState extends State<HeartMonitoringScreen>
                               boxShadow: [
                                 BoxShadow(
                                   color:
-                                      const Color(0xFFFF5252).withOpacity(0.4),
+                                      const Color(0xFFFF5252).withValues(alpha: 0.4),
                                   blurRadius: 15,
                                 ),
                               ],
@@ -665,7 +666,7 @@ class _HeartMonitoringScreenState extends State<HeartMonitoringScreen>
                                       boxShadow: [
                                         BoxShadow(
                                           color: const Color(0xFFFF6B6B)
-                                              .withOpacity(0.3),
+                                              .withValues(alpha: 0.3),
                                           blurRadius: 12,
                                         ),
                                       ],

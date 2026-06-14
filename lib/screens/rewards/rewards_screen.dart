@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/providers/auth_provider.dart';
@@ -326,21 +326,21 @@ class _RewardsScreenState extends State<RewardsScreen>
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  const Color(0xFFFFD700).withOpacity(0.15),
-                                  const Color(0xFFFFA000).withOpacity(0.08),
+                                  const Color(0xFFFFD700).withValues(alpha: 0.15),
+                                  const Color(0xFFFFA000).withValues(alpha: 0.08),
                                 ],
                               ),
                               borderRadius:
                                   BorderRadius.circular(AppTheme.radiusLarge),
                               border: Border.all(
                                 color:
-                                    const Color(0xFFFFD700).withOpacity(glow),
+                                    const Color(0xFFFFD700).withValues(alpha: glow),
                                 width: 1.5,
                               ),
                               boxShadow: [
                                 BoxShadow(
                                   color: const Color(0xFFFFD700)
-                                      .withOpacity(glow * 0.5),
+                                      .withValues(alpha: glow * 0.5),
                                   blurRadius: 30,
                                   spreadRadius: 0,
                                 ),
@@ -591,18 +591,18 @@ class _RewardsScreenState extends State<RewardsScreen>
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(colors: [
-                            const Color(0xFF7C4DFF).withOpacity(0.1),
-                            const Color(0xFF536DFE).withOpacity(0.05),
+                            const Color(0xFF7C4DFF).withValues(alpha: 0.1),
+                            const Color(0xFF536DFE).withValues(alpha: 0.05),
                           ]),
                           borderRadius:
                               BorderRadius.circular(AppTheme.radiusMedium),
                           border: Border.all(
-                              color: const Color(0xFF7C4DFF).withOpacity(0.2)),
+                              color: const Color(0xFF7C4DFF).withValues(alpha: 0.2)),
                         ),
                         child: Column(
                           children: [
                             Icon(Icons.favorite_rounded,
-                                color: const Color(0xFF7C4DFF).withOpacity(0.6),
+                                color: const Color(0xFF7C4DFF).withValues(alpha: 0.6),
                                 size: 28),
                             const SizedBox(height: 10),
                             Text(
@@ -679,7 +679,7 @@ class _RewardsScreenState extends State<RewardsScreen>
         width: 28,
         height: 28,
         decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(8)),
         child: Icon(icon, color: color, size: 16),
       ),
@@ -745,8 +745,8 @@ class _RewardsScreenState extends State<RewardsScreen>
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: earned
-                ? const Color(0xFF4CAF50).withOpacity(0.15)
-                : const Color(0xFFFFD700).withOpacity(0.15),
+                ? const Color(0xFF4CAF50).withValues(alpha: 0.15)
+                : const Color(0xFFFFD700).withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           child: earned

@@ -1,4 +1,5 @@
-import 'dart:io';
+﻿import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,11 +15,11 @@ class ARService {
       } else if (Platform.isAndroid) {
         return await _launchAndroidSceneViewer(modelPath);
       } else {
-        print('AR viewing is not supported on this platform');
+        debugPrint('AR viewing is not supported on this platform');
         return false;
       }
     } catch (e) {
-      print('Error launching AR viewer: $e');
+      debugPrint('Error launching AR viewer: $e');
       return false;
     }
   }
@@ -48,11 +49,11 @@ class ARService {
           mode: LaunchMode.externalApplication,
         );
       } else {
-        print('Cannot launch AR Quick Look');
+        debugPrint('Cannot launch AR Quick Look');
         return false;
       }
     } catch (e) {
-      print('Error launching iOS AR Quick Look: $e');
+      debugPrint('Error launching iOS AR Quick Look: $e');
       return false;
     }
   }
@@ -79,7 +80,7 @@ class ARService {
       // Write the file
       await modelFile.writeAsBytes(bytes);
       
-      print('Model file saved to: ${modelFile.path}');
+      debugPrint('Model file saved to: ${modelFile.path}');
 
       // Use method channel to get content URI from FileProvider
       const platform = MethodChannel('com.example.medicoscope/ar');
@@ -91,18 +92,18 @@ class ARService {
         );
 
         if (contentUri == null) {
-          print('Failed to get content URI from FileProvider');
+          debugPrint('Failed to get content URI from FileProvider');
           return false;
         }
 
-        print('Content URI: $contentUri');
+        debugPrint('Content URI: $contentUri');
 
         // Create Scene Viewer intent URL with content URI
         final Uri sceneViewerUrl = Uri.parse(
           'intent://arvr.google.com/scene-viewer/1.0?file=$contentUri&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;',
         );
 
-        print('Launching Scene Viewer with URL: $sceneViewerUrl');
+        debugPrint('Launching Scene Viewer with URL: $sceneViewerUrl');
 
         // Launch Scene Viewer
         if (await canLaunchUrl(sceneViewerUrl)) {
@@ -111,15 +112,15 @@ class ARService {
             mode: LaunchMode.externalApplication,
           );
         } else {
-          print('Cannot launch Scene Viewer');
+          debugPrint('Cannot launch Scene Viewer');
           return false;
         }
       } on PlatformException catch (e) {
-        print('Platform exception: ${e.message}');
+        debugPrint('Platform exception: ${e.message}');
         return false;
       }
     } catch (e) {
-      print('Error launching Android Scene Viewer: $e');
+      debugPrint('Error launching Android Scene Viewer: $e');
       return false;
     }
   }

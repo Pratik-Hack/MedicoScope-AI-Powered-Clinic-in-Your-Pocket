@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/glass_card.dart';
@@ -280,7 +280,7 @@ class _DoctorReportsScreenState extends State<DoctorReportsScreen> {
                                 ? [
                                     BoxShadow(
                                       color: AppTheme.primaryOrange
-                                          .withOpacity(0.3),
+                                          .withValues(alpha: 0.3),
                                       blurRadius: 8,
                                     )
                                   ]
@@ -308,9 +308,9 @@ class _DoctorReportsScreenState extends State<DoctorReportsScreen> {
                                       horizontal: 6, vertical: 2),
                                   decoration: BoxDecoration(
                                     color: isSelected
-                                        ? Colors.white.withOpacity(0.3)
+                                        ? Colors.white.withValues(alpha: 0.3)
                                         : AppTheme.primaryOrange
-                                            .withOpacity(0.15),
+                                            .withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
@@ -447,7 +447,7 @@ class _DoctorReportsScreenState extends State<DoctorReportsScreen> {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color, size: 18),
@@ -526,7 +526,7 @@ class _DoctorReportsScreenState extends State<DoctorReportsScreen> {
                   CircleAvatar(
                     radius: 20,
                     backgroundColor:
-                        AppTheme.primaryOrange.withOpacity(0.15),
+                        AppTheme.primaryOrange.withValues(alpha: 0.15),
                     child: Text(
                       name.isNotEmpty ? name[0].toUpperCase() : '?',
                       style: const TextStyle(
@@ -560,7 +560,7 @@ class _DoctorReportsScreenState extends State<DoctorReportsScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
-                                color: color.withOpacity(0.12),
+                                color: color.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -676,7 +676,7 @@ class _ReportCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: categoryColor.withOpacity(0.15),
+                  color: categoryColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -718,7 +718,7 @@ class _ReportCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: categoryColor.withOpacity(0.12),
+                      color: categoryColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(

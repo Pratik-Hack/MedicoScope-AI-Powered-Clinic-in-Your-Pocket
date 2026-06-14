@@ -52,9 +52,6 @@ dependencies:
   # Glassmorphism UI effects
   glassmorphism: ^3.0.0
 
-  # Google Fonts
-  google_fonts: ^6.1.0
-
   # URL launcher for AR viewer
   url_launcher: ^6.2.4
 

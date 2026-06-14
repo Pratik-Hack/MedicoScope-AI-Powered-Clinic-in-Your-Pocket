@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/locale/locale_provider.dart';
 import 'package:medicoscope/core/locale/app_strings.dart';
@@ -55,7 +55,7 @@ class WelcomeScreen extends StatelessWidget {
                             gradient: AppTheme.orangeGradient,
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primaryOrange.withOpacity(0.4),
+                                color: AppTheme.primaryOrange.withValues(alpha: 0.4),
                                 blurRadius: 30,
                                 offset: const Offset(0, 10),
                               ),
@@ -78,7 +78,7 @@ class WelcomeScreen extends StatelessWidget {
                             .then()
                             .shimmer(
                               duration: 2000.ms,
-                              color: Colors.white.withOpacity(0.3),
+                              color: Colors.white.withValues(alpha: 0.3),
                             ),
 
                         const SizedBox(height: AppTheme.spacingXXLarge),
@@ -144,7 +144,7 @@ class WelcomeScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: AppTheme.spacingLarge),
-                              Divider(color: AppTheme.textLight.withOpacity(0.3)),
+                              Divider(color: AppTheme.textLight.withValues(alpha: 0.3)),
                               const SizedBox(height: AppTheme.spacingLarge),
                               Icon(
                                 Icons.medical_information_outlined,

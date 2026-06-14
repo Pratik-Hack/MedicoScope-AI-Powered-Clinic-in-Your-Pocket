@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+﻿import 'package:flutter/material.dart';
 
 class AppTheme {
   // Color Palette - matching the reference image
@@ -45,53 +44,53 @@ class AppTheme {
         error: Colors.red.shade400,
       ),
       scaffoldBackgroundColor: backgroundLight,
-      textTheme: GoogleFonts.interTextTheme().copyWith(
-        displayLarge: GoogleFonts.inter(
+      textTheme: TextTheme(
+        displayLarge: TextStyle(
           fontSize: 96,
           fontWeight: FontWeight.w300,
           color: textDark,
         ),
-        displayMedium: GoogleFonts.inter(
+        displayMedium: TextStyle(
           fontSize: 60,
           fontWeight: FontWeight.w300,
           color: textDark,
         ),
-        displaySmall: GoogleFonts.inter(
+        displaySmall: TextStyle(
           fontSize: 48,
           fontWeight: FontWeight.w400,
           color: textDark,
         ),
-        headlineMedium: GoogleFonts.inter(
+        headlineMedium: TextStyle(
           fontSize: 34,
           fontWeight: FontWeight.w400,
           color: textDark,
         ),
-        headlineSmall: GoogleFonts.inter(
+        headlineSmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w500,
           color: textDark,
         ),
-        titleLarge: GoogleFonts.inter(
+        titleLarge: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: textDark,
         ),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: textDark,
         ),
-        bodyLarge: GoogleFonts.inter(
+        bodyLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: textDark,
         ),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: textGray,
         ),
-        labelLarge: GoogleFonts.inter(
+        labelLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: textDark,
@@ -106,7 +105,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -152,54 +151,53 @@ class AppTheme {
         error: Colors.red.shade400,
       ),
       scaffoldBackgroundColor: darkBackground,
-      textTheme:
-          GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
-        displayLarge: GoogleFonts.inter(
+      textTheme: TextTheme(
+        displayLarge: TextStyle(
           fontSize: 96,
           fontWeight: FontWeight.w300,
           color: darkTextLight,
         ),
-        displayMedium: GoogleFonts.inter(
+        displayMedium: TextStyle(
           fontSize: 60,
           fontWeight: FontWeight.w300,
           color: darkTextLight,
         ),
-        displaySmall: GoogleFonts.inter(
+        displaySmall: TextStyle(
           fontSize: 48,
           fontWeight: FontWeight.w400,
           color: darkTextLight,
         ),
-        headlineMedium: GoogleFonts.inter(
+        headlineMedium: TextStyle(
           fontSize: 34,
           fontWeight: FontWeight.w400,
           color: darkTextLight,
         ),
-        headlineSmall: GoogleFonts.inter(
+        headlineSmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w500,
           color: darkTextLight,
         ),
-        titleLarge: GoogleFonts.inter(
+        titleLarge: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: darkTextLight,
         ),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: darkTextLight,
         ),
-        bodyLarge: GoogleFonts.inter(
+        bodyLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: darkTextLight,
         ),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: darkTextGray,
         ),
-        labelLarge: GoogleFonts.inter(
+        labelLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: darkTextLight,
@@ -214,7 +212,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -247,7 +245,7 @@ class AppTheme {
   // Shadows
   static List<BoxShadow> get cardShadow => [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
+          color: Colors.black.withValues(alpha: 0.05),
           blurRadius: 20,
           offset: const Offset(0, 4),
         ),
@@ -255,7 +253,7 @@ class AppTheme {
 
   static List<BoxShadow> get elevatedShadow => [
         BoxShadow(
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.black.withValues(alpha: 0.1),
           blurRadius: 30,
           offset: const Offset(0, 8),
         ),

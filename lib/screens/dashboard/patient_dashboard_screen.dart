@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/app_drawer.dart';
@@ -18,6 +18,7 @@ import 'package:medicoscope/screens/rewards/rewards_screen.dart';
 import 'package:medicoscope/screens/upload/image_upload_screen.dart';
 import 'package:medicoscope/screens/vitals/vitals_screen.dart';
 import 'package:medicoscope/screens/heart/heart_monitoring_screen.dart';
+import 'package:medicoscope/screens/respiratory/respiratory_screen.dart';
 import 'package:medicoscope/screens/alerts/patient_alerts_screen.dart';
 import 'package:medicoscope/screens/appointments/patient_appointments_screen.dart';
 import 'package:medicoscope/screens/nearby_doctors/nearby_doctors_screen.dart';
@@ -71,7 +72,7 @@ class PatientDashboardScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF4ECDC4).withOpacity(0.4),
+              color: const Color(0xFF4ECDC4).withValues(alpha: 0.4),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -416,6 +417,26 @@ class PatientDashboardScreen extends StatelessWidget {
                         const HeartMonitoringScreen(),
                       ),
                       animationDelay: 775,
+                    ),
+
+                    const SizedBox(height: AppTheme.spacingMedium),
+
+                    // Respiratory screening tile — on-device breath/cough
+                    // acoustic analysis (screening-grade).
+                    DashboardTile(
+                      icon: Icons.air_outlined,
+                      title: 'Respiratory Check',
+                      description: 'Breathing-pattern screening from a short recording',
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF11998E), Color(0xFF38EF7D)],
+                      ),
+                      onTap: () => _navigateTo(
+                        context,
+                        const RespiratoryScreen(),
+                      ),
+                      animationDelay: 790,
                     ),
 
                     const SizedBox(height: AppTheme.spacingMedium),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
@@ -185,13 +185,13 @@ class DiseaseDeckScreen extends StatelessWidget {
                   width: 52,
                   height: 52,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.15),
+                    color: color.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
-                    border: Border.all(color: color.withOpacity(0.4), width: 2),
+                    border: Border.all(color: color.withValues(alpha: 0.4), width: 2),
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    '${(r.score * 100).toStringAsFixed(0)}',
+                    (r.score * 100).toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
@@ -210,9 +210,9 @@ class DiseaseDeckScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: color.withOpacity(0.15),
+                              color: color.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: color.withOpacity(0.4)),
+                              border: Border.all(color: color.withValues(alpha: 0.4)),
                             ),
                             child: Text(
                               r.risk.label,
@@ -291,10 +291,10 @@ class DiseaseDeckScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             decoration: BoxDecoration(
-              color: meta.gradient.first.withOpacity(0.10),
+              color: meta.gradient.first.withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: meta.gradient.first.withOpacity(0.35),
+                color: meta.gradient.first.withValues(alpha: 0.35),
                 width: 1.2,
               ),
             ),
@@ -308,7 +308,7 @@ class DiseaseDeckScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: meta.gradient.first.withOpacity(0.3),
+                        color: meta.gradient.first.withValues(alpha: 0.3),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -373,7 +373,7 @@ class DiseaseDeckScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: meta.gradient.first.withOpacity(0.45),
+              color: meta.gradient.first.withValues(alpha: 0.45),
               blurRadius: 24,
               offset: const Offset(0, 10),
             ),
@@ -388,9 +388,9 @@ class DiseaseDeckScreen extends StatelessWidget {
                   width: 62,
                   height: 62,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.22),
+                    color: Colors.white.withValues(alpha: 0.22),
                     borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: Colors.white.withOpacity(0.3)),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                   ),
                   child: Icon(meta.icon, color: Colors.white, size: 30),
                 ),
@@ -413,7 +413,7 @@ class DiseaseDeckScreen extends StatelessWidget {
                         meta.shortDesc,
                         style: TextStyle(
                           fontSize: 12.5,
-                          color: Colors.white.withOpacity(0.88),
+                          color: Colors.white.withValues(alpha: 0.88),
                           height: 1.35,
                         ),
                       ),
@@ -426,7 +426,7 @@ class DiseaseDeckScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.12),
+                color: Colors.white.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -476,9 +476,9 @@ class DiseaseDeckScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.14),
+          color: Colors.white.withValues(alpha: 0.14),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white.withOpacity(0.2)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
         ),
         child: Row(
           children: [
@@ -489,7 +489,7 @@ class DiseaseDeckScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10.5,
                 fontWeight: FontWeight.w700,
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
               ),
             ),
             const SizedBox(width: 4),
@@ -538,7 +538,7 @@ class DiseaseDeckScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: m.gradient.first.withOpacity(0.35),
+                      color: m.gradient.first.withValues(alpha: 0.35),
                       blurRadius: 14,
                       offset: const Offset(0, 5),
                     ),
@@ -633,9 +633,9 @@ class DiseaseDeckScreen extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.08),
+                color: Colors.orange.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.orange.withOpacity(0.25)),
+                border: Border.all(color: Colors.orange.withValues(alpha: 0.25)),
               ),
               child: Row(
                 children: [

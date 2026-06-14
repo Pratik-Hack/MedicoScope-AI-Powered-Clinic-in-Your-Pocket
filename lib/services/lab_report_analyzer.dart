@@ -7,9 +7,6 @@ class _MarkerSpec {
   final String display;        // "HbA1c"
   final String unit;
   final List<RegExp> patterns; // permissive patterns that match the marker name
-  // Any text matching one of these immediately *before* the marker hit is a
-  // sign we're looking at a different analyte (e.g. "HbA1c" vs "Hb"); skip.
-  final List<RegExp> negativeLookbehind;
   final String referenceRange;
   final double? lowCritical;   // < this => 'critical' (severely low)
   final double? lowCutoff;     // < this => 'low'
@@ -22,7 +19,6 @@ class _MarkerSpec {
     required this.display,
     required this.unit,
     required this.patterns,
-    this.negativeLookbehind = const [],
     required this.referenceRange,
     this.lowCritical,
     this.lowCutoff,

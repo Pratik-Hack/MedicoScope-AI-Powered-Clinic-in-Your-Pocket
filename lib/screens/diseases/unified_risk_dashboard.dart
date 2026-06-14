@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +9,7 @@ import 'package:medicoscope/core/widgets/glass_card.dart';
 import 'package:medicoscope/models/disease_risk_result.dart';
 import 'package:medicoscope/screens/diseases/disease_deck_screen.dart';
 import 'package:medicoscope/screens/diseases/widgets/modality_chat_fab.dart';
+import 'package:medicoscope/services/concordance.dart';
 import 'package:medicoscope/services/demo_mode_service.dart';
 import 'package:medicoscope/services/disease_risk_store.dart';
 
@@ -87,6 +88,8 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                           children: [
                             _overallGauge(isDark),
                             const SizedBox(height: AppTheme.spacingMedium),
+                            _concordancePanel(isDark),
+                            const SizedBox(height: AppTheme.spacingMedium),
                             _impactCard(isDark),
                             const SizedBox(height: AppTheme.spacingMedium),
                             for (final d in DiseaseType.values)
@@ -101,6 +104,104 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
         ),
       ),
     );
+  }
+
+  /// Cross-modality concordance — the multi-modal differentiator. Shows, per
+  /// disease, how many INDEPENDENT methods corroborate the finding. Only
+  /// renders when at least one disease has 2+ contributing methods (otherwise
+  /// there's nothing to corroborate yet, and we don't overstate).
+  Widget _concordancePanel(bool isDark) {
+    final scored = <DiseaseConcordance>[];
+    for (final d in DiseaseType.values) {
+      final c = Concordance.forDisease(d, _all[d] ?? const []);
+      if (c.modalityCount >= 2) scored.add(c);
+    }
+    if (scored.isEmpty) return const SizedBox.shrink();
+    scored.sort((a, b) => b.score.compareTo(a.score));
+
+    return GlassCard(
+      padding: const EdgeInsets.all(AppTheme.spacingLarge),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.hub_outlined, size: 18, color: Color(0xFF667EEA)),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Cross-modality concordance',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: isDark ? AppTheme.darkTextLight : AppTheme.textDark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'How strongly independent methods agree — more agreement, more trust.',
+            style: TextStyle(
+              fontSize: 12,
+              color: (isDark ? AppTheme.darkTextLight : AppTheme.textDark)
+                  .withValues(alpha: 0.7),
+            ),
+          ),
+          const SizedBox(height: 12),
+          for (final c in scored) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    DiseaseRegistry.of(c.disease).title,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color:
+                          isDark ? AppTheme.darkTextLight : AppTheme.textDark,
+                    ),
+                  ),
+                ),
+                if (c.corroborated)
+                  const Icon(Icons.verified, size: 16, color: Color(0xFF4CAF50)),
+                const SizedBox(width: 6),
+                Text(
+                  '${(c.score * 100).round()}%',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: _riskColor(c.topRisk),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: c.score,
+                minHeight: 6,
+                backgroundColor:
+                    (isDark ? Colors.white : Colors.black).withValues(alpha: 0.08),
+                valueColor: AlwaysStoppedAnimation(_riskColor(c.topRisk)),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              c.label,
+              style: TextStyle(
+                fontSize: 11,
+                color: (isDark ? AppTheme.darkTextLight : AppTheme.textDark)
+                    .withValues(alpha: 0.65),
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ],
+      ),
+    ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.05, end: 0);
   }
 
   Future<void> _openDemoMenu() async {
@@ -128,9 +229,10 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                 subtitle: const Text(
                     'Seed HbA1c 8.1 / BP 154/96 / Hb 11.2 — jury showcase'),
                 onTap: () async {
+                  final nav = Navigator.of(ctx);
                   await DemoModeService.loadHighRiskProfile();
+                  nav.pop();
                   if (!mounted) return;
-                  Navigator.of(ctx).pop();
                   _load();
                 },
               ),
@@ -141,9 +243,10 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                 subtitle:
                     const Text('All markers normal — calm baseline'),
                 onTap: () async {
+                  final nav = Navigator.of(ctx);
                   await DemoModeService.loadHealthyProfile();
+                  nav.pop();
                   if (!mounted) return;
-                  Navigator.of(ctx).pop();
                   _load();
                 },
               ),
@@ -151,11 +254,12 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                 leading: const Icon(Icons.delete_outline),
                 title: const Text('Clear all results'),
                 onTap: () async {
+                  final nav = Navigator.of(ctx);
                   for (final d in DiseaseType.values) {
                     await DiseaseRiskStore.clear(d);
                   }
+                  nav.pop();
                   if (!mounted) return;
-                  Navigator.of(ctx).pop();
                   _load();
                 },
               ),
@@ -265,7 +369,7 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                     strokeWidth: 10,
                     strokeCap: StrokeCap.round,
                     backgroundColor:
-                        isDark ? Colors.white12 : Colors.black.withOpacity(0.05),
+                        isDark ? Colors.white12 : Colors.black.withValues(alpha: 0.05),
                     valueColor: AlwaysStoppedAnimation<Color>(color),
                   ),
                 ),
@@ -339,7 +443,7 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 6, vertical: 4),
                             decoration: BoxDecoration(
-                              color: c.withOpacity(0.13),
+                              color: c.withValues(alpha: 0.13),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Column(
@@ -478,9 +582,9 @@ class _UnifiedRiskDashboardState extends State<UnifiedRiskDashboard> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.15),
+                        color: color.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: color.withOpacity(0.4)),
+                        border: Border.all(color: color.withValues(alpha: 0.4)),
                       ),
                       child: Text(
                         latest.risk.label,

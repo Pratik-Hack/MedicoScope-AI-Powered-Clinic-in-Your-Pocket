@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
@@ -75,9 +75,9 @@ class RiskResultView extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: c.withOpacity(0.15),
+                      color: c.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: c.withOpacity(0.4)),
+                      border: Border.all(color: c.withValues(alpha: 0.4)),
                     ),
                     child: Text(
                       '${result.risk.label} RISK',
@@ -396,7 +396,7 @@ class RiskResultView extends StatelessWidget {
             label: const Text('Run again'),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
-              side: BorderSide(color: meta.gradient.first.withOpacity(0.5)),
+              side: BorderSide(color: meta.gradient.first.withValues(alpha: 0.5)),
             ),
           ),
         ],

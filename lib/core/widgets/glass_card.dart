@@ -29,7 +29,7 @@ class GlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Container(
       width: width,
       height: height,
@@ -38,10 +38,11 @@ class GlassCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         border: border ??
             Border.all(
-              color: isDark 
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.white.withOpacity(0.2),
-              width: 1.5,
+              // Slightly brighter hairline border reads as polished glass.
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.12)
+                  : Colors.white.withValues(alpha: 0.35),
+              width: 1,
             ),
         boxShadow: AppTheme.cardShadow,
       ),
@@ -51,13 +52,30 @@ class GlassCard extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
           child: Container(
             decoration: BoxDecoration(
-              color: color ?? (isDark 
-                  ? AppTheme.darkCard.withOpacity(0.7)
-                  : Colors.white.withOpacity(0.7)),
+              // Base fill kept as before, with a faint top-to-bottom sheen
+              // gradient layered over it for a premium frosted-glass depth.
+              color: color ??
+                  (isDark
+                      ? AppTheme.darkCard.withValues(alpha: 0.7)
+                      : Colors.white.withValues(alpha: 0.7)),
+              gradient: color != null
+                  ? null
+                  : LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: isDark
+                          ? [
+                              Colors.white.withValues(alpha: 0.06),
+                              Colors.white.withValues(alpha: 0.01),
+                            ]
+                          : [
+                              Colors.white.withValues(alpha: 0.55),
+                              Colors.white.withValues(alpha: 0.22),
+                            ],
+                    ),
               borderRadius: BorderRadius.circular(borderRadius),
             ),
-            padding: padding ??
-                const EdgeInsets.all(AppTheme.spacingLarge),
+            padding: padding ?? const EdgeInsets.all(AppTheme.spacingLarge),
             child: child,
           ),
         ),

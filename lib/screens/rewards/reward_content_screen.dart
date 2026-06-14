@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/locale/locale_provider.dart';
@@ -79,7 +79,7 @@ class RewardContentScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
                           boxShadow: [
                             BoxShadow(
-                              color: gradient[0].withOpacity(0.3),
+                              color: gradient[0].withValues(alpha: 0.3),
                               blurRadius: 20,
                               offset: const Offset(0, 8),
                             ),
@@ -91,7 +91,7 @@ class RewardContentScreen extends StatelessWidget {
                               width: 52,
                               height: 52,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               child: Icon(icon, color: Colors.white, size: 28),
@@ -114,7 +114,7 @@ class RewardContentScreen extends StatelessWidget {
                                     AppStrings.get('personalized_for_you', lang),
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.white.withOpacity(0.8),
+                                      color: Colors.white.withValues(alpha: 0.8),
                                     ),
                                   ),
                                 ],
@@ -139,14 +139,14 @@ class RewardContentScreen extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: (isDark ? Colors.white : Colors.black).withOpacity(0.05),
+                          color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                         ),
                         child: Row(
                           children: [
                             Icon(
                               Icons.auto_awesome_rounded,
-                              color: gradient[0].withOpacity(0.6),
+                              color: gradient[0].withValues(alpha: 0.6),
                               size: 20,
                             ),
                             const SizedBox(width: 10),
@@ -254,7 +254,7 @@ class RewardContentScreen extends StatelessWidget {
                       width: 5,
                       height: 5,
                       decoration: BoxDecoration(
-                        color: gradient[0].withOpacity(0.6),
+                        color: gradient[0].withValues(alpha: 0.6),
                         shape: BoxShape.circle,
                       ),
                     ),

@@ -79,8 +79,11 @@ class _AddNearbyDoctorScreenState extends State<AddNearbyDoctorScreen> {
         return;
       }
       final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
+      if (!mounted) return;
       setState(() {
         _latController.text = position.latitude.toStringAsFixed(6);
         _lngController.text = position.longitude.toStringAsFixed(6);

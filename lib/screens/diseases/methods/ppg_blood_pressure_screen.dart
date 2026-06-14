@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -400,11 +400,11 @@ class _PpgBloodPressureScreenState extends State<PpgBloodPressureScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
-                  colors: [accent.withOpacity(0.9), accent.withOpacity(0.2)],
+                  colors: [accent.withValues(alpha: 0.9), accent.withValues(alpha: 0.2)],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: accent.withOpacity(0.6),
+                    color: accent.withValues(alpha: 0.6),
                     blurRadius: 30,
                     spreadRadius: 5,
                   ),
@@ -451,7 +451,7 @@ class _PpgBloodPressureScreenState extends State<PpgBloodPressureScreen> {
               icon: const Icon(Icons.stop_circle_outlined),
               label: const Text('Cancel'),
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: accent.withOpacity(0.5)),
+                side: BorderSide(color: accent.withValues(alpha: 0.5)),
               ),
             ),
           ],

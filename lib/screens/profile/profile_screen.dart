@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/glass_card.dart';
@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primaryOrange.withOpacity(0.3),
+                                color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                                 blurRadius: 8,
                               ),
                             ],
@@ -121,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 48,
-                          backgroundColor: AppTheme.primaryOrange.withOpacity(0.15),
+                          backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.15),
                           child: Text(
                             user?.name.isNotEmpty == true
                                 ? user!.name[0].toUpperCase()
@@ -243,7 +243,7 @@ class ProfileScreen extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
               ),
               child: Icon(icon, color: AppTheme.primaryOrange, size: 20),

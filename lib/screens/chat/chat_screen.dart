@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/providers/auth_provider.dart';
@@ -107,6 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
 
       // Award chat coins (max once per day)
+      if (!mounted) return;
       final coinsProvider = Provider.of<CoinsProvider>(context, listen: false);
       final earned = await coinsProvider.addChatCoins();
       if (earned > 0 && mounted) {
@@ -256,13 +257,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.all(AppTheme.spacingMedium),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? AppTheme.darkCard.withOpacity(0.5)
-                      : Colors.white.withOpacity(0.5),
+                      ? AppTheme.darkCard.withValues(alpha: 0.5)
+                      : Colors.white.withValues(alpha: 0.5),
                   border: Border(
                     top: BorderSide(
                       color: isDark
-                          ? Colors.white.withOpacity(0.1)
-                          : Colors.grey.withOpacity(0.2),
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : Colors.grey.withValues(alpha: 0.2),
                     ),
                   ),
                 ),
@@ -272,8 +273,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.white.withOpacity(0.08)
-                              : Colors.grey.withOpacity(0.1),
+                              ? Colors.white.withValues(alpha: 0.08)
+                              : Colors.grey.withValues(alpha: 0.1),
                           borderRadius:
                               BorderRadius.circular(AppTheme.radiusLarge),
                         ),

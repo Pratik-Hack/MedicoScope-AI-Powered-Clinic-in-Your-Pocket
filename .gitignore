@@ -46,6 +46,9 @@ app.*.map.json
 
 # Environment files (never commit secrets / runtime logs)
 chatbot/.env
+server/.env
+.env
+**/.env
 
 # Generated / local build files
 .flutter-plugins

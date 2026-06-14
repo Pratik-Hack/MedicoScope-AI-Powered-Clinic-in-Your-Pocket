@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/locale/locale_provider.dart';
 import 'package:medicoscope/core/locale/app_strings.dart';
@@ -70,7 +70,7 @@ class RoleSelectionScreen extends StatelessWidget {
                           boxShadow: [
                             BoxShadow(
                               color:
-                                  AppTheme.primaryOrange.withOpacity(0.4),
+                                  AppTheme.primaryOrange.withValues(alpha: 0.4),
                               blurRadius: 24,
                               offset: const Offset(0, 8),
                             ),
@@ -237,7 +237,7 @@ class RoleSelectionScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
           boxShadow: [
             BoxShadow(
-              color: gradient.colors.first.withOpacity(0.3),
+              color: gradient.colors.first.withValues(alpha: 0.3),
               blurRadius: 16,
               offset: const Offset(0, 6),
             ),
@@ -249,7 +249,7 @@ class RoleSelectionScreen extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius:
                     BorderRadius.circular(AppTheme.radiusMedium),
               ),
@@ -273,7 +273,7 @@ class RoleSelectionScreen extends StatelessWidget {
                     description,
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.white.withOpacity(0.85),
+                      color: Colors.white.withValues(alpha: 0.85),
                       height: 1.4,
                     ),
                   ),
@@ -282,7 +282,7 @@ class RoleSelectionScreen extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withValues(alpha: 0.7),
               size: 18,
             ),
           ],

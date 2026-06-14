@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/locale/locale_provider.dart';
@@ -445,29 +445,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       // Blood Group dropdown
       DropdownButtonFormField<String>(
-        value: _bloodGroup,
+        initialValue: _bloodGroup,
         decoration: InputDecoration(
           labelText: AppStrings.get('blood_group', lang),
           prefixIcon: const Icon(Icons.bloodtype_outlined,
               color: AppTheme.primaryOrange, size: 22),
           filled: true,
           fillColor: isDark
-              ? AppTheme.darkCard.withOpacity(0.7)
-              : Colors.white.withOpacity(0.7),
+              ? AppTheme.darkCard.withValues(alpha: 0.7)
+              : Colors.white.withValues(alpha: 0.7),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             borderSide: BorderSide(
               color: isDark
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             borderSide: BorderSide(
               color: isDark
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
             ),
           ),
         ),
@@ -501,29 +501,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       const SizedBox(height: AppTheme.spacingMedium),
 
       DropdownButtonFormField<String>(
-        value: _emergencyRelationship,
+        initialValue: _emergencyRelationship,
         decoration: InputDecoration(
           labelText: AppStrings.get('relationship', lang),
           prefixIcon: const Icon(Icons.people_outlined,
               color: AppTheme.primaryOrange, size: 22),
           filled: true,
           fillColor: isDark
-              ? AppTheme.darkCard.withOpacity(0.7)
-              : Colors.white.withOpacity(0.7),
+              ? AppTheme.darkCard.withValues(alpha: 0.7)
+              : Colors.white.withValues(alpha: 0.7),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             borderSide: BorderSide(
               color: isDark
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             borderSide: BorderSide(
               color: isDark
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
             ),
           ),
         ),

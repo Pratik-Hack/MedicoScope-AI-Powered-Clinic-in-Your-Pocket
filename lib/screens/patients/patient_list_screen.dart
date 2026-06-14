@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 import 'package:medicoscope/core/widgets/glass_card.dart';
@@ -222,7 +222,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: AppTheme.primaryOrange.withOpacity(0.15),
+                backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.15),
                 child: Text(
                   (patient['name'] ?? '?')[0].toUpperCase(),
                   style: const TextStyle(
@@ -264,7 +264,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryOrange.withOpacity(0.1),
+                              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(

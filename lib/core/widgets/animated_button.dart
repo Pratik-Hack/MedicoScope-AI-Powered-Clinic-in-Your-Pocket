@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
 
@@ -68,7 +68,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
               : [
                   BoxShadow(
                     color: (widget.backgroundColor ?? AppTheme.primaryOrange)
-                        .withOpacity(0.3),
+                        .withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),

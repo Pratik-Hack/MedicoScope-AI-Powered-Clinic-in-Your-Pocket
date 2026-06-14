@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
@@ -188,7 +188,7 @@ class _SymptomQuestionnaireScreenState
                   hintText: 'e.g. "chest pain radiating to left arm", "heavy periods for 2 weeks"',
                   hintStyle: TextStyle(fontSize: 11.5, color: isDark ? AppTheme.darkTextGray : AppTheme.textGray),
                   filled: true,
-                  fillColor: isDark ? Colors.white10 : Colors.black.withOpacity(0.03),
+                  fillColor: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.03),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
@@ -243,7 +243,7 @@ class _SymptomQuestionnaireScreenState
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: accent.withOpacity(0.14),
+                    color: accent.withValues(alpha: 0.14),
                     shape: BoxShape.circle,
                   ),
                   alignment: Alignment.center,
@@ -306,7 +306,7 @@ class _SymptomQuestionnaireScreenState
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: active ? accent : (isDark ? Colors.white10 : Colors.black.withOpacity(0.03)),
+            color: active ? accent : (isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.03)),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: active ? accent : Colors.transparent,

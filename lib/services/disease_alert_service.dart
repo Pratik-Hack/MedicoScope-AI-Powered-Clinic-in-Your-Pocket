@@ -107,21 +107,24 @@ class DiseaseAlertService {
     required String patientId,
     required String patientName,
     String? doctorId,
+    String? authToken,
   }) async {
     if (!_shouldAlert(result)) return null;
     final alert = await _storeLocally(result);
 
-    // Best-effort doctor notification via the existing backend endpoint.
-    // We format the disease result as a clinical report string so the
-    // doctor's notifications screen can display it alongside mental-health
-    // notifications — no backend changes required.
-    if (doctorId != null && doctorId.isNotEmpty) {
+    // Best-effort doctor notification via the existing backend endpoint, which
+    // now requires auth — forward the patient's token so the notification is
+    // accepted and persisted (otherwise it would 401 and be lost).
+    if (doctorId != null && doctorId.isNotEmpty && authToken != null) {
       try {
         final clinical = _buildClinicalReport(result);
         await http
             .post(
               Uri.parse('${ApiConstants.baseUrl}/mental-health/notifications'),
-              headers: {'Content-Type': 'application/json'},
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer $authToken',
+              },
               body: jsonEncode({
                 'doctorId': doctorId,
                 'patientId': patientId,

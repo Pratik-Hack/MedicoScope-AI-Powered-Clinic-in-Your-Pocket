@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:medicoscope/core/theme/app_theme.dart';
@@ -172,7 +172,7 @@ class _PatientAlertsScreenState extends State<PatientAlertsScreen> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFF5252).withOpacity(0.15),
+                          color: const Color(0xFFFF5252).withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -359,7 +359,7 @@ class _PatientAlertsScreenState extends State<PatientAlertsScreen> {
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: _severityColor(severity).withOpacity(0.15),
+                      color: _severityColor(severity).withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
@@ -407,7 +407,7 @@ class _PatientAlertsScreenState extends State<PatientAlertsScreen> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: _severityColor(severity).withOpacity(0.15),
+                      color: _severityColor(severity).withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -509,8 +509,8 @@ class _PatientAlertsScreenState extends State<PatientAlertsScreen> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: isDark
-                        ? Colors.white.withOpacity(0.05)
-                        : Colors.black.withOpacity(0.03),
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : Colors.black.withValues(alpha: 0.03),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -568,7 +568,7 @@ class _PatientAlertsScreenState extends State<PatientAlertsScreen> {
                           child: Icon(
                             Icons.emergency,
                             size: 14,
-                            color: const Color(0xFFFF5252).withOpacity(0.7),
+                            color: const Color(0xFFFF5252).withValues(alpha: 0.7),
                           ),
                         ),
                       if (doctorNotified)
@@ -577,7 +577,7 @@ class _PatientAlertsScreenState extends State<PatientAlertsScreen> {
                           child: Icon(
                             Icons.medical_services,
                             size: 14,
-                            color: const Color(0xFF4CAF50).withOpacity(0.7),
+                            color: const Color(0xFF4CAF50).withValues(alpha: 0.7),
                           ),
                         ),
                       Expanded(
